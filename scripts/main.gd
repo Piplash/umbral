@@ -202,7 +202,26 @@ func start_exploration(content_path: String = "res://data/narrative/settlement.j
 	session.host = self
 	session.flow = story_flow
 	session.play_intro = play_intro
-	session.content = JSON.parse_string(FileAccess.get_file_as_string(content_path))
+	session.content = NarrativeContent.read(content_path)
+	story_flow.continuation = session.content.get("after_victory", {})
+	screen.add_child(session)
+
+func continue_story_after_battle() -> void:
+	if story_flow == null:
+		return
+	var path: String = story_flow.claim_continuation()
+	if path.is_empty():
+		return
+	clear_screen()
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	battle = null
+	var session: StorySession = StorySession.new()
+	session.host = self
+	session.flow = story_flow
+	session.play_intro = false
+	session.entry_sequence = story_flow.continuation.get("entry", "aftermath")
+	session.content = NarrativeContent.read(path)
 	screen.add_child(session)
 
 func start_battle(mission: BattleMissionData = null) -> void:
@@ -710,7 +729,11 @@ func show_results(won: bool) -> void:
 	var box: VBoxContainer = modal(battle.mission.victory_title if won else battle.mission.defeat_title)
 	text(box, battle.outcome.reason)
 	text(box, "Turnos: %d\nEnemigos derrotados: %d/%d\nDaño recibido por aliados: %d\nHabilidades utilizadas: %d" % [battle.turns.number, battle.results.defeated(battle.units), battle.enemy_count(), battle.results.damage_received, battle.results.abilities_used], 14)
-	button(box, "Reiniciar combate", start_battle).grab_focus()
+	if won and story_flow != null and story_flow.can_continue():
+		button(box, "Continuar historia", continue_story_after_battle).grab_focus()
+	var retry: Button = button(box, "Reiniciar combate", start_battle)
+	if not won or story_flow == null or not story_flow.can_continue():
+		retry.grab_focus()
 	button(box, "Menú principal", show_menu)
 
 func queue_results(won: bool) -> void:

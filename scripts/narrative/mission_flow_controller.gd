@@ -4,6 +4,7 @@ extends RefCounted
 var world: WorldState = WorldState.new()
 var phase: String = "exploration"
 var prepared: BattleMissionData
+var continuation: Dictionary = {}
 var before_battle: Dictionary = {}
 
 func consolidate(base: BattleMissionData, content: Dictionary) -> bool:
@@ -21,6 +22,8 @@ func consolidate(base: BattleMissionData, content: Dictionary) -> bool:
 	return true
 
 func record_result(battle: BattleManager) -> void:
+	if phase != "battle" or not battle.ended or battle.outcome.status == "ongoing":
+		return
 	world.restore(before_battle)
 	var states: Dictionary = {}
 	for unit: TacticalUnit in battle.units:
@@ -30,3 +33,16 @@ func record_result(battle: BattleManager) -> void:
 	world.data.characters = states
 	world.data.events["battle_completed"] = battle.outcome.status == "victory"
 	phase = "results"
+
+func can_continue() -> bool:
+	if phase != "results" or prepared == null or continuation.is_empty():
+		return false
+	var result: Dictionary = world.data.results.get(prepared.mission_id, {})
+	return result.get("outcome", {}).get("status", "") == "victory" and not world.data.events.get(continuation.id, false)
+
+func claim_continuation() -> String:
+	if not can_continue():
+		return ""
+	world.data.events[continuation.id] = true
+	phase = "aftermath"
+	return continuation.path

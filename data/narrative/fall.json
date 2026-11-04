@@ -1,0 +1,2479 @@
+{
+  "base_content": "res://data/narrative/settlement.json",
+  "initial_environment": "aftermath_start",
+  "hud_title": "CAPÍTULO I · LOS QUE QUEDARON",
+  "continue_label": "Partir hacia el norte  ›",
+  "continue_conditions": [
+    {
+      "bucket": "flags",
+      "key": "convoy_route_known",
+      "value": true
+    }
+  ],
+  "continue_blocked": "Necesito reconstruir la ruta del convoy. Examinar dos pistas distintas debería bastar.",
+  "continue_text": "Gael se prepara para seguir el camino del norte. El viaje continúa más allá de estas ruinas.",
+  "state_catalog": {
+    "results.settlement.villager_survived": "Resultado táctico real; no se copia a otra bandera.",
+    "flags.villager_warned": "Decisión anterior, independiente de supervivencia.",
+    "prepared.terminal": "Interacción energética anterior.",
+    "flags.settlement_destroyed": "Variante ambiental de ruinas.",
+    "flags.lira_captured": "Lira viva y cautiva; no cambia su destino ni su equipo táctico.",
+    "flags.convoy_route_known": "Dirección del convoy conocida.",
+    "flags.industrial_bridge_known": "Solo testimonio directo entrega el viejo puente.",
+    "flags.convoy_route_source": "witness o investigation; se conserva al converger.",
+    "examined.convoy_tracks / authority_equipment / transport_record": "Pistas únicas; el contador se deriva, sin variable duplicada.",
+    "prepared.basic_supplies": "Ventaja narrativa sencilla, sin inventario/recompensa acumulable.",
+    "flags.chapter_1_started": "Título y entrada al capítulo.",
+    "flags.escape_group_saved": "Terminal permitió escapar a un pequeño grupo; no todos sobreviven."
+  },
+  "environments": {
+    "aftermath_start": {
+      "actors": [
+        {
+          "id": "lira",
+          "name": "Lira",
+          "visual_row": 1,
+          "position": [
+            650,
+            420
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": true,
+          "art": "support",
+          "conditions": [
+            {
+              "bucket": "flags",
+              "key": "lira_captured",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "villager",
+          "name": "Aldeano",
+          "visual_row": 2,
+          "position": [
+            520,
+            610
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": true,
+          "art": "civil",
+          "conditions": [
+            {
+              "path": [
+                "results",
+                "settlement",
+                "villager_survived"
+              ],
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "neighbor",
+          "name": "Habitante",
+          "art": "civil",
+          "position": [
+            350,
+            390
+          ],
+          "dialogue": "neighbor",
+          "visual_row": 4,
+          "routine": {
+            "type": "idle"
+          },
+          "tint": "d7c8ae",
+          "cinematic": true
+        },
+        {
+          "id": "woman_a",
+          "name": "Elena",
+          "visual_row": 3,
+          "position": [
+            575,
+            350
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "woman_a",
+          "cinematic": true
+        },
+        {
+          "id": "worker_a",
+          "name": "Reparador",
+          "visual_row": 4,
+          "position": [
+            860,
+            570
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "worker_a",
+          "tint": "b3bfc4",
+          "cinematic": true
+        },
+        {
+          "id": "child",
+          "name": "Niño",
+          "visual_row": 5,
+          "position": [
+            330,
+            480
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "child",
+          "cinematic": true
+        }
+      ],
+      "start": [
+        500,
+        480
+      ]
+    },
+    "burning": {
+      "base_environment": "aftermath_start",
+      "actors": [
+        {
+          "id": "lira",
+          "name": "Lira",
+          "visual_row": 1,
+          "position": [
+            650,
+            420
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": true,
+          "art": "support",
+          "conditions": [
+            {
+              "bucket": "flags",
+              "key": "lira_captured",
+              "value": false
+            }
+          ]
+        },
+        {
+          "id": "villager",
+          "name": "Aldeano",
+          "visual_row": 2,
+          "position": [
+            520,
+            610
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": true,
+          "art": "civil",
+          "conditions": [
+            {
+              "path": [
+                "results",
+                "settlement",
+                "villager_survived"
+              ],
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "neighbor",
+          "name": "Habitante",
+          "art": "civil",
+          "position": [
+            350,
+            390
+          ],
+          "dialogue": "neighbor",
+          "visual_row": 4,
+          "routine": {
+            "type": "idle"
+          },
+          "tint": "d7c8ae",
+          "cinematic": true
+        },
+        {
+          "id": "woman_a",
+          "name": "Elena",
+          "visual_row": 3,
+          "position": [
+            575,
+            350
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "woman_a",
+          "cinematic": true
+        },
+        {
+          "id": "worker_a",
+          "name": "Reparador",
+          "visual_row": 4,
+          "position": [
+            860,
+            570
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "worker_a",
+          "tint": "b3bfc4",
+          "cinematic": true
+        },
+        {
+          "id": "child",
+          "name": "Niño",
+          "visual_row": 5,
+          "position": [
+            330,
+            480
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "speed": 32,
+          "dialogue": "child",
+          "cinematic": true
+        },
+        {
+          "id": "officer",
+          "name": "Oficial de la Autoridad",
+          "art": "captor",
+          "position": [
+            790,
+            450
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            54,
+            76
+          ],
+          "tint": "d6b277"
+        },
+        {
+          "id": "troop_0",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            735,
+            350
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_1",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            800,
+            370
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_2",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            850,
+            390
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_3",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            730,
+            420
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_4",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            800,
+            450
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_5",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            875,
+            470
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_6",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            740,
+            510
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "troop_7",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            815,
+            540
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        },
+        {
+          "id": "carrier",
+          "name": "Transporte blindado",
+          "visual": {
+            "sheet": "res://assets/art/fall_props.png",
+            "region": [
+              627,
+              627,
+              627,
+              627
+            ]
+          },
+          "visual_size": [
+            285,
+            185
+          ],
+          "position": [
+            970,
+            540
+          ],
+          "cinematic": true,
+          "static_sprite": true
+        },
+        {
+          "id": "escort",
+          "name": "Transporte blindado",
+          "visual": {
+            "sheet": "res://assets/art/fall_props.png",
+            "region": [
+              627,
+              627,
+              627,
+              627
+            ]
+          },
+          "visual_size": [
+            285,
+            185
+          ],
+          "position": [
+            1020,
+            375
+          ],
+          "cinematic": true,
+          "static_sprite": true
+        }
+      ],
+      "atmosphere": {
+        "ambient": "9a9cb6",
+        "flicker": 0.55,
+        "lights": [
+          {
+            "position": [
+              290,
+              245
+            ],
+            "radius": 150,
+            "energy": 1.05,
+            "color": "ff8249"
+          },
+          {
+            "position": [
+              860,
+              200
+            ],
+            "radius": 150,
+            "energy": 1.05,
+            "color": "ff8249"
+          },
+          {
+            "position": [
+              915,
+              620
+            ],
+            "radius": 150,
+            "energy": 1.05,
+            "color": "ff8249"
+          }
+        ],
+        "steam": [
+          {
+            "position": [
+              290,
+              210
+            ]
+          },
+          {
+            "position": [
+              860,
+              190
+            ]
+          },
+          {
+            "position": [
+              925,
+              570
+            ]
+          },
+          {
+            "position": [
+              435,
+              320
+            ]
+          }
+        ],
+        "fires": [
+          {
+            "position": [
+              285,
+              220
+            ],
+            "height": 75
+          },
+          {
+            "position": [
+              855,
+              195
+            ],
+            "height": 65
+          },
+          {
+            "position": [
+              915,
+              630
+            ],
+            "height": 50
+          }
+        ]
+      }
+    },
+    "ruins": {
+      "actors": [
+        {
+          "id": "villager",
+          "name": "Aldeano",
+          "visual_row": 2,
+          "position": [
+            560,
+            560
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": false,
+          "art": "civil",
+          "conditions": [
+            {
+              "path": [
+                "results",
+                "settlement",
+                "villager_survived"
+              ],
+              "value": true
+            }
+          ],
+          "dialogue": "ruins_witness"
+        },
+        {
+          "id": "convoy_tracks",
+          "name": "Huellas del convoy",
+          "position": [
+            930,
+            500
+          ],
+          "prop": 1,
+          "visual_size": [
+            64,
+            40
+          ],
+          "dialogue": "convoy_tracks",
+          "interaction_radius": 44,
+          "marker": "◇"
+        },
+        {
+          "id": "authority_equipment",
+          "name": "Equipo de la Autoridad",
+          "position": [
+            620,
+            420
+          ],
+          "prop": 8,
+          "visual_size": [
+            42,
+            46
+          ],
+          "dialogue": "authority_equipment",
+          "interaction_radius": 42,
+          "marker": "◇"
+        },
+        {
+          "id": "transport_record",
+          "name": "Registro de transporte dañado",
+          "position": [
+            780,
+            650
+          ],
+          "visual": {
+            "sheet": "res://assets/art/refuge_props.png",
+            "region": [
+              512,
+              0,
+              512,
+              512
+            ]
+          },
+          "visual_size": [
+            80,
+            95
+          ],
+          "dialogue": "transport_record",
+          "interaction_radius": 42,
+          "marker": "◇"
+        }
+      ],
+      "start": [
+        500,
+        560
+      ],
+      "props": [
+        [
+          14,
+          640,
+          240,
+          85,
+          100
+        ],
+        [
+          7,
+          5,
+          30,
+          170,
+          180
+        ],
+        [
+          7,
+          955,
+          20,
+          150,
+          180
+        ],
+        [
+          7,
+          950,
+          695,
+          150,
+          160
+        ],
+        [
+          10,
+          590,
+          170,
+          160,
+          70
+        ],
+        [
+          10,
+          165,
+          350,
+          130,
+          55
+        ],
+        [
+          10,
+          20,
+          600,
+          130,
+          55
+        ],
+        [
+          10,
+          830,
+          280,
+          140,
+          55
+        ],
+        [
+          8,
+          390,
+          265,
+          35,
+          40
+        ],
+        [
+          13,
+          365,
+          280,
+          32,
+          38
+        ],
+        [
+          8,
+          830,
+          540,
+          40,
+          45
+        ],
+        [
+          8,
+          1010,
+          390,
+          36,
+          40
+        ],
+        [
+          11,
+          410,
+          170,
+          80,
+          65
+        ],
+        [
+          11,
+          80,
+          380,
+          75,
+          55
+        ],
+        [
+          11,
+          330,
+          670,
+          80,
+          60
+        ],
+        [
+          11,
+          720,
+          690,
+          75,
+          55
+        ],
+        [
+          11,
+          1010,
+          520,
+          80,
+          65
+        ],
+        [
+          10,
+          440,
+          740,
+          80,
+          40
+        ],
+        [
+          11,
+          320,
+          100,
+          70,
+          45
+        ],
+        [
+          11,
+          750,
+          230,
+          55,
+          50
+        ],
+        [
+          7,
+          5,
+          190,
+          155,
+          175
+        ],
+        [
+          11,
+          375,
+          310,
+          45,
+          30
+        ],
+        [
+          11,
+          740,
+          655,
+          45,
+          35
+        ],
+        [
+          6,
+          555,
+          365,
+          145,
+          98
+        ],
+        [
+          9,
+          350,
+          515,
+          90,
+          70
+        ],
+        [
+          8,
+          837,
+          520,
+          90,
+          65
+        ]
+      ],
+      "visual_props": [
+        {
+          "sheet": "res://assets/art/fall_props.png",
+          "region": [
+            0,
+            0,
+            627,
+            627
+          ],
+          "rect": [
+            150,
+            110,
+            230,
+            220
+          ]
+        },
+        {
+          "sheet": "res://assets/art/fall_props.png",
+          "region": [
+            0,
+            0,
+            627,
+            627
+          ],
+          "rect": [
+            120,
+            550,
+            210,
+            205
+          ]
+        },
+        {
+          "sheet": "res://assets/art/fall_props.png",
+          "region": [
+            627,
+            0,
+            627,
+            627
+          ],
+          "rect": [
+            780,
+            90,
+            240,
+            230
+          ],
+          "sort_y": 285
+        },
+        {
+          "sheet": "res://assets/art/fall_props.png",
+          "region": [
+            0,
+            627,
+            627,
+            627
+          ],
+          "rect": [
+            880,
+            570,
+            170,
+            150
+          ]
+        },
+        {
+          "sheet": "res://assets/art/refuge_domestic.png",
+          "region": [
+            0,
+            0,
+            724,
+            724
+          ],
+          "rect": [
+            220,
+            335,
+            170,
+            100
+          ],
+          "sort_y": 420
+        },
+        {
+          "sheet": "res://assets/art/refuge_domestic.png",
+          "region": [
+            724,
+            0,
+            724,
+            724
+          ],
+          "rect": [
+            110,
+            390,
+            155,
+            105
+          ],
+          "sort_y": 485
+        },
+        {
+          "sheet": "res://assets/art/refuge_domestic.png",
+          "region": [
+            1448,
+            0,
+            724,
+            724
+          ],
+          "rect": [
+            360,
+            615,
+            115,
+            76
+          ],
+          "sort_y": 668
+        }
+      ],
+      "blockers": [
+        [
+          180,
+          170,
+          180,
+          130
+        ],
+        [
+          865,
+          160,
+          130,
+          110
+        ],
+        [
+          150,
+          620,
+          160,
+          110
+        ],
+        [
+          900,
+          620,
+          140,
+          100
+        ],
+        [
+          665,
+          285,
+          40,
+          35
+        ],
+        [
+          370,
+          650,
+          90,
+          25
+        ],
+        [
+          845,
+          425,
+          130,
+          75
+        ],
+        [
+          445,
+          280,
+          140,
+          42
+        ],
+        [
+          610,
+          175,
+          130,
+          45
+        ],
+        [
+          125,
+          440,
+          125,
+          45
+        ],
+        [
+          228,
+          411,
+          10,
+          14
+        ],
+        [
+          365,
+          411,
+          10,
+          14
+        ],
+        [
+          75,
+          310,
+          25,
+          20
+        ],
+        [
+          580,
+          405,
+          100,
+          45
+        ],
+        [
+          365,
+          540,
+          60,
+          40
+        ],
+        [
+          835,
+          530,
+          70,
+          35
+        ]
+      ],
+      "atmosphere": {
+        "ambient": "9caec5",
+        "lights": [
+          {
+            "position": [
+              915,
+              630
+            ],
+            "radius": 60,
+            "energy": 0.2,
+            "color": "df744d"
+          }
+        ],
+        "steam": [
+          {
+            "position": [
+              290,
+              210
+            ]
+          },
+          {
+            "position": [
+              860,
+              190
+            ]
+          },
+          {
+            "position": [
+              925,
+              570
+            ]
+          }
+        ],
+        "fires": []
+      },
+      "hud_title": "CAPÍTULO I · LOS QUE QUEDARON"
+    }
+  },
+  "dialogues": {
+    "ruins_witness": {
+      "speaker": "Aldeano",
+      "art": "civil",
+      "lines": [
+        "El convoy tomó el camino del norte. Cruzó el viejo puente industrial. Hay un puesto de control más allá."
+      ],
+      "choices": [
+        {
+          "text": "Aceptar las vendas y prepararme para partir.",
+          "effects": [
+            {
+              "bucket": "prepared",
+              "key": "basic_supplies",
+              "value": true
+            }
+          ]
+        },
+        {
+          "text": "Gracias. Voy a revisar los restos antes de partir."
+        }
+      ]
+    },
+    "convoy_tracks": {
+      "speaker": "Gael",
+      "examined_id": "convoy_tracks",
+      "lines": [
+        "Rodadas profundas. Varios vehículos pesados salieron por el acceso oriental y giraron al norte."
+      ],
+      "choices": [
+        {
+          "text": "Recordar las huellas."
+        }
+      ]
+    },
+    "authority_equipment": {
+      "speaker": "Gael",
+      "examined_id": "authority_equipment",
+      "lines": [
+        "Un precinto de transporte y una baliza rota de la Autoridad. La última señal apunta al corredor norte. No indica dónde se detuvieron."
+      ],
+      "choices": [
+        {
+          "text": "Conservar el indicio."
+        }
+      ]
+    },
+    "transport_record": {
+      "speaker": "Gael",
+      "examined_id": "transport_record",
+      "lines": [
+        "El registro está quemado: «Traslado de prisioneras… ruta N…». El destino y los controles intermedios se perdieron."
+      ],
+      "choices": [
+        {
+          "text": "Anotar el fragmento."
+        }
+      ]
+    }
+  },
+  "state_rules": [
+    {
+      "conditions": [
+        {
+          "path": [
+            "results",
+            "settlement",
+            "villager_survived"
+          ],
+          "value": false
+        },
+        {
+          "count": [
+            [
+              "examined",
+              "convoy_tracks"
+            ],
+            [
+              "examined",
+              "authority_equipment"
+            ],
+            [
+              "examined",
+              "transport_record"
+            ]
+          ],
+          "at_least": 2
+        }
+      ],
+      "effects": [
+        {
+          "bucket": "flags",
+          "key": "convoy_route_known",
+          "value": true
+        },
+        {
+          "bucket": "flags",
+          "key": "convoy_route_source",
+          "value": "investigation"
+        }
+      ]
+    }
+  ],
+  "continue_sequence": [
+    {
+      "type": "effects",
+      "effects": [
+        {
+          "bucket": "flags",
+          "key": "north_departure_ready",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "chapter_end",
+      "title": "El viejo puente industrial",
+      "text": "Gael conoce la ruta que siguió el convoy. Al norte lo espera el viejo puente industrial. La continuación de ese viaje se desarrollará en una próxima misión.",
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "industrial_bridge_known",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "chapter_end",
+      "title": "El camino del norte",
+      "text": "Las pistas coinciden: el convoy se dirigió al norte. Gael deberá seguir sus rastros. La continuación de ese viaje se desarrollará en una próxima misión.",
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "industrial_bridge_known",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "sequences": {
+    "aftermath": [
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "convoy_route_known",
+            "value": false
+          },
+          {
+            "bucket": "flags",
+            "key": "industrial_bridge_known",
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "flash",
+        "color": "080b10",
+        "seconds": 1.2
+      },
+      {
+        "type": "ambience",
+        "cue": "wind",
+        "volume": -23,
+        "seconds": 1.5
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 8,
+        "face": [
+          0,
+          -1
+        ]
+      },
+      {
+        "type": "pose",
+        "id": "lira",
+        "face": [
+          -1,
+          0
+        ]
+      },
+      {
+        "type": "wait",
+        "seconds": 5
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Pensé que no saldríamos vivos de esta.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "Ya pasó. Ahora tenemos que atender a los heridos.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "No pudimos traerlo de vuelta. No podemos abandonar a los demás.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "No deberíamos confiarnos. Algo no está bien."
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "Puedo seguir. Ayudemos a los heridos.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "units",
+              "support",
+              "alive"
+            ],
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 0
+      },
+      {
+        "type": "ambience",
+        "volume": -55,
+        "seconds": 2
+      },
+      {
+        "type": "wait",
+        "seconds": 2
+      },
+      {
+        "type": "ambience",
+        "cue": "machinery",
+        "volume": -14,
+        "seconds": 3
+      },
+      {
+        "type": "pose",
+        "id": "lira",
+        "face": [
+          1,
+          0
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "¿Oyes eso? No son tres soldados."
+      },
+      {
+        "type": "camera",
+        "position": [
+          950,
+          430
+        ],
+        "seconds": 3
+      },
+      {
+        "type": "show",
+        "id": "carrier",
+        "actor": {
+          "id": "carrier",
+          "name": "Transporte blindado",
+          "visual": {
+            "sheet": "res://assets/art/fall_props.png",
+            "region": [
+              627,
+              627,
+              627,
+              627
+            ]
+          },
+          "visual_size": [
+            285,
+            185
+          ],
+          "position": [
+            1240,
+            540
+          ],
+          "cinematic": true,
+          "static_sprite": true
+        }
+      },
+      {
+        "type": "move",
+        "id": "carrier",
+        "position": [
+          970,
+          540
+        ],
+        "seconds": 6
+      },
+      {
+        "type": "show",
+        "id": "escort",
+        "actor": {
+          "id": "escort",
+          "name": "Transporte blindado",
+          "visual": {
+            "sheet": "res://assets/art/fall_props.png",
+            "region": [
+              627,
+              627,
+              627,
+              627
+            ]
+          },
+          "visual_size": [
+            285,
+            185
+          ],
+          "position": [
+            1250,
+            375
+          ],
+          "cinematic": true,
+          "static_sprite": true
+        }
+      },
+      {
+        "type": "move",
+        "id": "escort",
+        "position": [
+          1020,
+          375
+        ],
+        "seconds": 5
+      },
+      {
+        "type": "show",
+        "id": "officer",
+        "actor": {
+          "id": "officer",
+          "name": "Oficial de la Autoridad",
+          "art": "captor",
+          "position": [
+            1105,
+            350
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            54,
+            76
+          ],
+          "tint": "d6b277"
+        }
+      },
+      {
+        "type": "move",
+        "id": "officer",
+        "position": [
+          790,
+          450
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_0",
+        "actor": {
+          "id": "troop_0",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            1160,
+            350
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_0",
+        "position": [
+          735,
+          350
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_1",
+        "actor": {
+          "id": "troop_1",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            1105,
+            350
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_1",
+        "position": [
+          800,
+          370
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_2",
+        "actor": {
+          "id": "troop_2",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            1160,
+            415
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_2",
+        "position": [
+          850,
+          390
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_3",
+        "actor": {
+          "id": "troop_3",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            1105,
+            415
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_3",
+        "position": [
+          730,
+          420
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_4",
+        "actor": {
+          "id": "troop_4",
+          "name": "Soldado de la Autoridad",
+          "art": "soldier",
+          "position": [
+            1160,
+            415
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_4",
+        "position": [
+          800,
+          450
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_5",
+        "actor": {
+          "id": "troop_5",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            1105,
+            480
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_5",
+        "position": [
+          875,
+          470
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_6",
+        "actor": {
+          "id": "troop_6",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            1160,
+            480
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_6",
+        "position": [
+          740,
+          510
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "show",
+        "id": "troop_7",
+        "actor": {
+          "id": "troop_7",
+          "name": "Unidad de captura",
+          "art": "captor",
+          "position": [
+            1105,
+            480
+          ],
+          "cinematic": true,
+          "static_sprite": true,
+          "visual_size": [
+            46,
+            64
+          ],
+          "tint": "ffffff"
+        }
+      },
+      {
+        "type": "move",
+        "id": "troop_7",
+        "position": [
+          815,
+          540
+        ],
+        "seconds": 2.3
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Narración",
+        "text": "Los soldados que habían derrotado no eran el ejército."
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Narración",
+        "text": "Eran su avanzada."
+      },
+      {
+        "type": "wait",
+        "seconds": 6,
+        "beat": "reinforcements"
+      },
+      {
+        "type": "sound",
+        "cue": "alarm"
+      },
+      {
+        "type": "flash",
+        "seconds": 0.6
+      },
+      {
+        "type": "environment",
+        "id": "burning"
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "settlement_destroyed",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "ambience",
+        "cue": "embers",
+        "volume": -16,
+        "seconds": 2
+      },
+      {
+        "type": "camera",
+        "position": [
+          540,
+          430
+        ],
+        "seconds": 2
+      },
+      {
+        "type": "sound",
+        "cue": "blast"
+      },
+      {
+        "type": "wait",
+        "seconds": 6,
+        "beat": "burning"
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¡A las casas de atrás! ¡Salgan del camino!"
+      },
+      {
+        "type": "show",
+        "id": "barrier",
+        "actor": {
+          "id": "barrier",
+          "name": "Barrera de emergencia",
+          "prop": 6,
+          "position": [
+            345,
+            535
+          ],
+          "visual_size": [
+            100,
+            75
+          ],
+          "cinematic": true
+        },
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "flash",
+        "color": "80d4dd",
+        "seconds": 0.6,
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "move",
+        "id": "neighbor",
+        "position": [
+          330,
+          550
+        ],
+        "seconds": 4,
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "move",
+        "id": "child",
+        "position": [
+          320,
+          590
+        ],
+        "seconds": 4,
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Habitante",
+        "text": "¡La barrera aguanta! ¡Por aquí, rápido!",
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "hide",
+        "id": "neighbor",
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "hide",
+        "id": "child",
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "escape_group_saved",
+            "value": true
+          }
+        ],
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Habitante",
+        "text": "¡El acceso está abierto! ¡Nos rodean!",
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "escape_group_saved",
+            "value": false
+          }
+        ],
+        "conditions": [
+          {
+            "bucket": "prepared",
+            "key": "terminal",
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "sound",
+        "cue": "blast"
+      },
+      {
+        "type": "pose",
+        "id": "worker_a",
+        "rotation": 75
+      },
+      {
+        "type": "wait",
+        "seconds": 2
+      },
+      {
+        "type": "hide",
+        "id": "worker_a"
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "repairer_killed",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "¡Al suelo! ¡No mires atrás!"
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "show",
+        "id": "mara",
+        "actor": {
+          "id": "mara",
+          "name": "Mara",
+          "visual_row": 3,
+          "position": [
+            760,
+            475
+          ],
+          "routine": {
+            "type": "idle"
+          },
+          "cinematic": true,
+          "tint": "b7a1c9"
+        }
+      },
+      {
+        "type": "move",
+        "id": "woman_a",
+        "position": [
+          710,
+          480
+        ],
+        "seconds": 3
+      },
+      {
+        "type": "move",
+        "id": "lira",
+        "position": [
+          700,
+          470
+        ],
+        "seconds": 3
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "Apóyate en mí. Vamos a salir de aquí."
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "move",
+        "id": "troop_6",
+        "position": [
+          700,
+          430
+        ],
+        "seconds": 2.5
+      },
+      {
+        "type": "move",
+        "id": "troop_7",
+        "position": [
+          755,
+          470
+        ],
+        "seconds": 2.5
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Oficial",
+        "text": "Separad a las mujeres. Al transporte."
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "move",
+        "id": "player",
+        "position": [
+          640,
+          470
+        ],
+        "seconds": 1,
+        "run": true
+      },
+      {
+        "type": "sound",
+        "cue": "blast"
+      },
+      {
+        "type": "flash",
+        "seconds": 0.6
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 72
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¡Lira!"
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "¡Gael, no!"
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¡Suéltenla!"
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Lira",
+        "text": "¡No vengas!"
+      },
+      {
+        "type": "move",
+        "id": "woman_a",
+        "position": [
+          960,
+          510
+        ],
+        "seconds": 3
+      },
+      {
+        "type": "move",
+        "id": "mara",
+        "position": [
+          950,
+          525
+        ],
+        "seconds": 3
+      },
+      {
+        "type": "move",
+        "id": "lira",
+        "position": [
+          920,
+          510
+        ],
+        "seconds": 5
+      },
+      {
+        "type": "move",
+        "id": "troop_6",
+        "position": [
+          885,
+          500
+        ],
+        "seconds": 2
+      },
+      {
+        "type": "move",
+        "id": "troop_7",
+        "position": [
+          950,
+          485
+        ],
+        "seconds": 2
+      },
+      {
+        "type": "intro_card",
+        "image": "res://assets/art/cinematics/separation.png",
+        "text": "Gael intenta levantarse. Al otro lado del humo, Lira vuelve la mirada.",
+        "seconds": 13,
+        "zoom_from": 1.02,
+        "zoom_to": 1.08,
+        "pan": [
+          -10,
+          3
+        ],
+        "transition": 0.6,
+        "beat": "capture"
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "lira_captured",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "hide",
+        "id": "lira"
+      },
+      {
+        "type": "hide",
+        "id": "woman_a"
+      },
+      {
+        "type": "hide",
+        "id": "mara"
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 25
+      },
+      {
+        "type": "move",
+        "id": "player",
+        "position": [
+          660,
+          500
+        ],
+        "seconds": 2
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 80
+      },
+      {
+        "type": "move",
+        "id": "carrier",
+        "position": [
+          1220,
+          540
+        ],
+        "seconds": 7
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¡LIRA!"
+      },
+      {
+        "type": "fade",
+        "seconds": 2
+      },
+      {
+        "type": "ambience",
+        "cue": "",
+        "volume": -60,
+        "seconds": 2
+      },
+      {
+        "type": "wait",
+        "seconds": 5
+      },
+      {
+        "type": "environment",
+        "id": "ruins"
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 75
+      },
+      {
+        "type": "ambience",
+        "cue": "wind",
+        "volume": -20,
+        "seconds": 2
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "reveal",
+        "seconds": 2
+      },
+      {
+        "type": "wait",
+        "seconds": 4,
+        "beat": "awakening"
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 12
+      },
+      {
+        "type": "wait",
+        "seconds": 2
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Pensé que no despertarías. Te encontré bajo los escombros.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¿Lira? ¿Dónde está mi hermana?",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Se la llevaron. A ella y a otras mujeres. Intenté seguirlos, pero había demasiados soldados.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "¿Hacia dónde?",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Tomaron el camino del norte. Vi sus vehículos cruzar el viejo puente industrial. Hay un puesto de control más allá.",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "convoy_route_known",
+            "value": true
+          },
+          {
+            "bucket": "flags",
+            "key": "industrial_bridge_known",
+            "value": true
+          },
+          {
+            "bucket": "flags",
+            "key": "convoy_route_source",
+            "value": "witness"
+          }
+        ],
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "Entonces iré al norte.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Espera. Si vas a perseguirlos, necesitarás algo más que esa espada.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Me dijiste que buscara refugio. Si no te hubiera escuchado, no estaría aquí para contártelo.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          },
+          {
+            "bucket": "flags",
+            "key": "villager_warned",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Me alcancé a esconder cuando empezó el ataque. Otros no tuvieron esa suerte.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          },
+          {
+            "bucket": "flags",
+            "key": "villager_warned",
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Aldeano",
+        "text": "Toma estas vendas. Es lo que he podido recuperar.",
+        "effects": [
+          {
+            "bucket": "prepared",
+            "key": "basic_supplies",
+            "value": true
+          }
+        ],
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "Lira...",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "dialogue",
+        "speaker": "Gael",
+        "text": "Tiene que haber quedado algún rastro del convoy.",
+        "conditions": [
+          {
+            "path": [
+              "results",
+              "settlement",
+              "villager_survived"
+            ],
+            "value": false
+          }
+        ]
+      },
+      {
+        "type": "pose",
+        "id": "player",
+        "rotation": 0
+      },
+      {
+        "type": "wait",
+        "seconds": 3
+      },
+      {
+        "type": "intro_card",
+        "title": true,
+        "caption": "UMBRAL",
+        "text": "CAPÍTULO I\n\nLOS QUE QUEDARON",
+        "seconds": 7,
+        "transition": 0.7,
+        "beat": "chapter"
+      },
+      {
+        "type": "effects",
+        "effects": [
+          {
+            "bucket": "flags",
+            "key": "chapter_1_started",
+            "value": true
+          }
+        ]
+      },
+      {
+        "type": "control"
+      }
+    ]
+  },
+  "resume_environments": [
+    {
+      "id": "ruins",
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "chapter_1_started",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "intro": []
+}

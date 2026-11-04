@@ -1,4 +1,5 @@
 """Original deterministic synthesized effects. Standard library only; no runtime dependency."""
+import argparse
 import math
 import random
 import struct
@@ -18,12 +19,20 @@ CUES = {
     'confirm': (.075, 660, 990, .0), 'cancel': (.065, 440, 220, .0),
     'invalid': (.10, 115, 95, .06), 'turn': (.17, 300, 600, .0),
     'pause': (.095, 350, 525, .0),
+    'wind': (4.0, 45, 60, 1.0), 'embers': (4.0, 35, 30, 1.0),
+    'alarm': (2.0, 440, 660, .03), 'blast': (.65, 80, 20, .85),
 }
 
-for name, (duration, start, end, noise) in CUES.items():
+parser = argparse.ArgumentParser()
+parser.add_argument('--only', nargs='*', choices=list(CUES))
+args = parser.parse_args()
+selected = {k: v for k, v in CUES.items() if args.only is None or k in args.only}
+for name, (duration, start, end, noise) in selected.items():
     rng = random.Random(name)
     samples = []
     phase = 0.0
+    filtered = 0.0
+    crackle = 0.0
     for index in range(int(duration * RATE)):
         t = index / RATE
         progress = t / duration
@@ -38,10 +47,18 @@ for name, (duration, start, end, noise) in CUES.items():
         if name == 'jam':
             tone *= math.sin(math.tau * 32 * t)
         sample = (tone * (1 - noise) + rng.uniform(-1, 1) * noise) * envelope * .38
+        if name == 'wind':
+            filtered = filtered * .985 + rng.uniform(-1, 1) * .015
+            sample = filtered * min(1, t / .3, (duration - t) / .3) * .8
+        elif name == 'embers':
+            crackle = max(crackle * .985, rng.random() * .8 if rng.random() < .002 else 0)
+            sample = rng.uniform(-1, 1) * crackle * .25 * min(1, t / .1, (duration - t) / .1)
+        elif name == 'alarm':
+            sample = math.sin(math.tau * (440 if int(t * 4) % 2 else 660) * t) * .15 * min(1, t / .05, (duration - t) / .05)
         samples.append(struct.pack('<h', int(max(-1, min(1, sample)) * 32767)))
     with wave.open(str(OUTPUT / (name + '.wav')), 'wb') as stream:
         stream.setnchannels(1)
         stream.setsampwidth(2)
         stream.setframerate(RATE)
         stream.writeframes(b''.join(samples))
-print(f'Generated {len(CUES)} original mono PCM effects in {OUTPUT}')
+print(f'Generated {len(selected)} original mono PCM effects in {OUTPUT}')

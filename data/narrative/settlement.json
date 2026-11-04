@@ -1455,5 +1455,10 @@
       ]
     }
   ],
-  "hud_title": "UMBRAL · EL ÚLTIMO REFUGIO"
+  "hud_title": "UMBRAL · EL ÚLTIMO REFUGIO",
+  "after_victory": {
+    "id": "settlement_aftermath_started",
+    "path": "res://data/narrative/fall.json",
+    "entry": "aftermath"
+  }
 }

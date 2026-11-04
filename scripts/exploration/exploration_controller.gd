@@ -11,6 +11,7 @@ var actors: Dictionary = {}
 var hover_id: String = ""
 var world: WorldState
 var actor_nodes: Dictionary = {}
+var prop_actors: Dictionary = {}
 var routines: AmbientRoutines
 var interaction_target: String = ""
 
@@ -55,27 +56,7 @@ func setup(data: Dictionary) -> void:
 		blockers.append(rect)
 		add_collision(rect)
 	for actor: Dictionary in data.actors:
-		actors[actor.id] = actor.duplicate(true)
-		var point: Vector2 = Vector2(actor.position[0], actor.position[1])
-		var body_size: Array = actor.get("collision_size", [24, 24])
-		var size: Vector2 = Vector2(body_size[0], body_size[1])
-		var rect: Rect2 = Rect2(point - size * 0.5, size)
-		if actor.has("art") or actor.has("visual_row"):
-			var npc: AmbientActor = AmbientActor.new()
-			npc.actor_id = actor.id
-			npc.art_key = actor.get("art", "civil")
-			npc.visual_row = int(actor.get("visual_row", {"support": 1, "civil": 2}.get(npc.art_key, 0)))
-			npc.visual_scale = float(actor.get("visual_scale", 1.0))
-			npc.modulate = Color(actor.get("tint", "ffffff"))
-			npc.speed = float(actor.get("speed", 42))
-			npc.position = point
-			npc.routine = actor.get("routine", {"type": "idle"})
-			npc.wait_remaining = float(actor.get("initial_pause", 1))
-			actor_nodes[actor.id] = npc
-			add_child(npc)
-		else:
-			blockers.append(rect)
-			add_collision(rect)
+		add_actor(actor)
 	var bounds: Vector2 = Vector2(data.bounds[0], data.bounds[1])
 	for rect: Rect2 in [Rect2(-30, -30, bounds.x + 60, 30), Rect2(-30, bounds.y, bounds.x + 60, 30), Rect2(-30, 0, 30, bounds.y), Rect2(bounds.x, 0, 30, bounds.y)]:
 		add_collision(rect)
@@ -99,6 +80,62 @@ func setup(data: Dictionary) -> void:
 	routines.exploration = self
 	add_child(routines)
 	queue_redraw()
+
+func add_actor(actor: Dictionary) -> void:
+	if world != null and not ConditionEvaluator.matches(actor.get("conditions", []), world):
+		return
+	actors[actor.id] = actor.duplicate(true)
+	var point: Vector2 = Vector2(actor.position[0], actor.position[1])
+	var body_size: Array = actor.get("collision_size", [24, 24])
+	var size: Vector2 = Vector2(body_size[0], body_size[1])
+	var rect: Rect2 = Rect2(point - size * 0.5, size)
+	if (actor.has("art") or actor.has("visual_row")) and not actor.get("static_sprite", false):
+		var npc: AmbientActor = AmbientActor.new()
+		npc.actor_id = actor.id
+		npc.art_key = actor.get("art", "civil")
+		npc.visual_row = int(actor.get("visual_row", {"support": 1, "civil": 2}.get(npc.art_key, 0)))
+		npc.visual_scale = float(actor.get("visual_scale", 1.0))
+		npc.modulate = Color(actor.get("tint", "ffffff"))
+		npc.speed = float(actor.get("speed", 42))
+		npc.position = point
+		npc.routine = actor.get("routine", {"type": "idle"})
+		npc.wait_remaining = float(actor.get("initial_pause", 1))
+		actor_nodes[actor.id] = npc
+		add_child(npc)
+		if actor.get("cinematic", false):
+			npc.collision_layer = 0
+			npc.collision_mask = 0
+	elif actor.get("cinematic", false):
+		var texture: Texture2D = ExplorationProp.texture_for(actor.visual) if actor.has("visual") else (ArtLibrary.character(actor.art) if actor.has("art") else ArtLibrary.prop(int(actor.prop)))
+		var image_size: Array = actor.get("visual_size", [46, 64])
+		var image_rect: Rect2 = Rect2(point - Vector2(image_size[0] * 0.5, image_size[1] - 10), Vector2(image_size[0], image_size[1]))
+		var sprite: ExplorationProp = ExplorationProp.new()
+		sprite.configure(texture, image_rect, point.y)
+		sprite.modulate = Color(actor.get("tint", "ffffff"))
+		prop_actors[actor.id] = sprite
+		add_child(sprite)
+	else:
+		blockers.append(rect)
+		add_collision(rect)
+
+func actor_node(id: String) -> ExplorationActor:
+	return player if id == "player" else actor_nodes.get(id)
+
+func actor_position(id: String) -> Vector2:
+	var node: ExplorationActor = actor_node(id)
+	if node != null:
+		return node.position
+	var point: Array = actors[id].position
+	return Vector2(point[0], point[1])
+
+func position_actor(id: String, value: Vector2) -> void:
+	var node: ExplorationActor = actor_node(id)
+	if node != null:
+		node.position = value
+	if prop_actors.has(id):
+		prop_actors[id].position = value
+	if actors.has(id):
+		actors[id].position = [value.x, value.y]
 
 func camera_focus() -> Vector2:
 	var offset: Array = content.get("camera_offset", [0, 0])
@@ -170,7 +207,7 @@ func interactable_at(point: Vector2) -> String:
 		if world != null and not ConditionEvaluator.matches(actors[id].get("conditions", []), world):
 			continue
 		var position: Vector2 = Vector2(actors[id].position[0], actors[id].position[1])
-		if point.distance_to(position) < 30:
+		if point.distance_to(position) < float(actors[id].get("interaction_radius", 30)):
 			return id
 	return ""
 
@@ -189,10 +226,13 @@ func _draw() -> void:
 		if not actor.get("visible", true):
 			continue
 		var point: Vector2 = Vector2(actor.position[0], actor.position[1])
-		if not actor_nodes.has(id):
+		if not actor_nodes.has(id) and not prop_actors.has(id):
 			var texture: Texture2D = ExplorationProp.texture_for(actor.visual) if actor.has("visual") else (ArtLibrary.character(actor.art) if actor.has("art") else ArtLibrary.prop(int(actor.prop)))
 			var size: Array = actor.get("visual_size", [46, 64])
-			draw_texture_rect(texture, Rect2(point - Vector2(size[0] * 0.5, size[1] - 10), Vector2(size[0], size[1])), false)
+			draw_texture_rect(texture, Rect2(point - Vector2(size[0] * 0.5, size[1] - 10), Vector2(size[0], size[1])), false, Color(actor.get("tint", "ffffff")))
 		if id == hover_id:
 			draw_arc(point, 23, 0, TAU, 24, Color("d8bd7e"), 1)
 			draw_string(ThemeDB.fallback_font, point + Vector2(-50, -63), actor.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("eee1be"))
+
+		if actor.has("marker") and (world == null or not world.data.examined.get(id, false)):
+			draw_string(ThemeDB.fallback_font, point + Vector2(-5, -65), actor.marker, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color("e2c688"))

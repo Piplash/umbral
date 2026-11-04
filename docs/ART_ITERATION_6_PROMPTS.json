@@ -1,0 +1,22 @@
+{
+  "mode": "image_gen integrada, skill imagegen",
+  "style_reference": "assets/references/486a0401-c42c-47e2-8b21-55ad25ebc5e0.png",
+  "identity_reference": "assets/references/protagonistas.png",
+  "assets": [
+    {
+      "file": "assets/art/fall_props.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "transparent_background": true,
+      "prompt": "Use case: stylized-concept. Original individual game prop sprite atlas for UMBRAL, NOT a scene or screenshot. Reference is ONLY style/palette, never extract or crop it. Dark detailed handcrafted pixel art, topdown three-quarter JRPG, cold slate and rust with dim ember orange, same rural dystopian science fiction as reference. EXACT 2 columns x2 rows on1536x1536, every cell768x768 with transparent padding and full object silhouettes, true alpha=0 background, no colored backdrop or glow haze, no labels/text/grid/people/ground scene. Row1 left: the timber/stone slate-roof cottage style from reference now burned and partly collapsed, intact recognizable doorframe, charred roof beams, stone foundation, torn industrial cable, small extinguishing embers, no huge fire obscuring shape. Row1 right: a differently damaged workshop with collapsed slate roof and broken rooftop water tank, bent ventilation pipe, exposed timber, damaged warm window now dark. Row2 left: wrecked industrial energy generator, split metal housing, cracked turbine and severed copper pipes, broken cyan console beside it, cold rusty silhouette, tiny remaining ember. Row2 right: imposing Authority military armored prisoner carrier, dark olive/charcoal steel, multiple wheels, reinforced tall rear troop cabin and accessible rear door, dull red running lamps, heavy grille, no weapons firing, no readable insignia. Consistent pixel scale, sharp clusters, no blur, no glossy illustration. Complete isolated reusable assets, no cast terrain, no violent explicit details."
+    },
+    {
+      "file": "assets/art/cinematics/separation.png",
+      "transparent_background": false,
+      "prompt": "Use case: illustration-story. Original full-bleed widescreen pixel-art cinematic illustration for UMBRAL, coherent with approved rural science-fiction concept. Reference1 is style only; reference2 is Gael/Lira identity reference. The small timber-and-stone rural settlement is burning during a military occupation at night, rusty generators, cut cables, warm fires contrasting cold blue-violet smoke. Emotional separation: in near foreground left, young adult Gael with tousled dark brown hair and burgundy scarf, olive/brown practical clothing, is on one knee among rubble trying to push himself up and reaching toward his sister, no graphic wounds or blood. In middle-right, Lira with dark-violet low ponytail, burgundy scarf and olive practical clothing is alive and conscious, restrained by two armored Authority soldiers and being escorted toward a large dark armored transport's open rear door. Two other adult women are escorted ahead of her, faces obscured by smoke. Lira looks back toward Gael, worried and defiant. Numerous cold silhouettes of troops and one officer occupy street behind, overwhelming force. Show no killing, no gore, no sexualization, no energy origin or destination revealed. Detailed crisp handcrafted pixel clusters, dark melancholy, human intimacy rather than gratuitous spectacle. Wide16:9 cinematic composition with lower quarter quieter/darker for subtitles; no text, captions, UI, borders, split panels or modern glossy sci-fi."
+    }
+  ],
+  "reused_fire": "Región del fuego del atlas original assets/art/environment.png; nunca de la referencia conceptual."
+}

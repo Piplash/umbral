@@ -96,3 +96,13 @@ Estas son normas generales y permanentes, no instrucciones limitadas a una itera
 - Usar la referencia aprobada como criterio de composición y atmósfera. Inspeccionarla realmente antes de compararla; nunca usar la composición completa ni recortes de ella como mapa, edificios o personajes jugables.
 - Integrar recursos individuales mediante componentes reutilizables; mantener separados arte, configuración, colisiones, navegación, interacción, cinemáticas, interfaz y reglas. Preservar controladores compartidos de NPC/animación y acciones narrativas configurables.
 - Conservar nearest y nitidez del pixel art. No presentar geometría simple ni placeholders como arte definitivo. No declarar validación artística a partir de compilación/headless: ejecutar, capturar, inspeccionar y documentar diferencias y pendientes visuales.
+
+## Continuidad, consecuencias y pruebas incrementales
+
+- Revisar/reutilizar los sistemas antes de implementar. Refactorizar solo lo necesario, separar lógica/datos/arte/presentación y evitar dependencias rígidas entre capítulos, escenas duplicadas y clases vacías.
+- Las decisiones deben tener consecuencias observables: supervivencia, diálogo, información, recursos o acontecimientos. Una convergencia inevitable conserva esas consecuencias; no duplicar capítulos completos para variaciones pequeñas ni confundir advertencia con supervivencia real.
+- Representar acontecimientos importantes con movimiento, animación, cámara, ilustración, diálogo, sonido, efectos y transiciones. No reducir capturas/destrucción a pantallas de texto. Mantener El último refugio y la interfaz negra/dorada.
+- Centralizar identificadores de estado y leer resultados reales. No duplicar variables equivalentes. Las transiciones, resultados, recompensas y efectos narrativos deben ser idempotentes; no reiniciar capítulos ni revivir muertos/capturados por una transición repetida.
+- Aplicar pruebas incrementales: inspección/carga básica, pruebas nuevas y componentes/integraciones afectados. No ejecutar la suite completa inicialmente ni tras cada modificación. Ampliar solo ante cambios centrales, estados/flujo general, fallos o riesgo técnico identificado.
+- No eliminar/deshabilitar pruebas. No repetir simulaciones tácticas si reglas/estadísticas/IA/rutas/turnos/objetivos no cambiaron. Mantener logs compactos con totales y errores relevantes.
+- Al informar, distinguir pruebas ejecutadas, omitidas deliberadamente y riesgos pendientes. Registrar progreso real y recursos provisionales si una iteración queda parcial; no presentar una captura solo textual ni ruinas no explorables como completas.

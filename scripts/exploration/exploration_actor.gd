@@ -2,6 +2,8 @@ class_name ExplorationActor
 extends CharacterBody2D
 
 signal arrived
+var cinematic_running: bool = false
+var cinematic_velocity: Vector2 = Vector2.ZERO
 var locked: bool = false
 var interacting: bool = false
 var route: PackedVector2Array = []
@@ -38,4 +40,4 @@ func move_direction(direction: Vector2, delta: float, running: bool = false) -> 
 	move_and_slide()
 	if velocity.length() > 1:
 		facing = velocity.normalized()
-	visual.advance(velocity, running, interacting, delta)
+	visual.advance(cinematic_velocity if cinematic_velocity != Vector2.ZERO else velocity, running or cinematic_running, interacting, delta)
