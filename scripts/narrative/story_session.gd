@@ -327,7 +327,8 @@ func show_intro_card(action: Dictionary) -> void:
 		bar.size = Vector2(960, 20)
 		bar.color = Color("070a10")
 		card.add_child(bar)
-	var caption: Label = host.text(card, "U M B R A L  /  " + (action.get("caption", "PRÓLOGO") if is_title else "%02d" % generation), 11)
+	var caption_text: String = action.get("caption", "PRÓLOGO") if is_title else "%02d" % generation
+	var caption: Label = host.text(card, "U M B R A L" + ("  /  " + caption_text if not caption_text.is_empty() else ""), 11)
 	caption.position = Vector2(46, 358 if not is_title else 150)
 	caption.modulate = Color("c4a46a")
 	if is_title:

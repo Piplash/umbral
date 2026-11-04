@@ -12,7 +12,7 @@ NeutralAI comparte BFS y ThreatSystem: Wander elige destinos deterministas sin e
 
 MissionFlowController consolida decisiones, crea una misión preparada y guarda el estado previo. StorySession reproduce acciones de secuencia: camera, sound, show/hide, move, dialogue, wait, wait_event, fade, scene y battle. Los movimientos y fundidos esperan señales de Tween; los diálogos esperan dialogue_finished. La primera secuencia enfoca la entrada, reproduce maquinaria, muestra/mueve tropas, presenta reacciones y carga el mismo combate 8×8 tras el fundido.
 
-Al terminar, se restaura el snapshot precombate y se registra un resultado estructurado por misión: outcome, unidades/PV, supervivencia del aldeano, preparaciones y eventos. Reintentar restaura las decisiones previas, elimina el resultado del intento anterior y reinicia el mismo combate preparado. No hay recompensas duplicadas ni siguiente misión automática.
+Al terminar, se restaura el snapshot precombate y se registra un resultado estructurado por misión: outcome, unidades/PV, supervivencia del aldeano, preparaciones y eventos. Reintentar restaura las decisiones previas, elimina el resultado del intento anterior y reinicia el mismo combate preparado. No hay recompensas duplicadas. Una victoria narrativa ahora ofrece Continuar historia hacia la caída y el Capítulo I; la derrota mantiene el reintento.
 
 El controlador táctico no conoce NPC de exploración. El 10×10 permanece disponible exclusivamente para tests/API de desarrollo; el selector está oculto en la interfaz normal. Las modalidades futuras de reclutamiento, relaciones, rutas y reputación no están implementadas.
 
@@ -33,3 +33,15 @@ Se preservan los tres textos y el título, 34 segundos de duración configurada,
 Campos de intro_card: image (Texture2D), seconds, text, zoom_from/zoom_to, pan [x,y], transition (entrada), audio opcional (cue existente) y title. Pan y zoom se ejecutan juntos durante la tarjeta; salida gradual y entrada fundida permiten cortes suaves. La narración progresiva se integra en el tercio inferior, con velo para legibilidad y botones Continuar/Saltar. Los finales se encadenan en play_actions; las acciones scene/battle/effects siguen disponibles en el intérprete general, sin crear lógica específica por ilustración. La música no se añadió porque no había un recurso apropiado.
 
 La ayuda de exploración no aplica efectos ni marca conversaciones. Los habitantes retirados de escena conservan configuración y diálogos en datos; no se borra contenido narrativo. La terminal conserva sus choices/effects y la misma preparación de batalla pese a cambiar su representación.
+
+## Caída y Capítulo I (iteración 6)
+
+El resultado real del primer combate determina la presencia del aldeano. La advertencia sigue en flags.villager_warned y la terminal en prepared.terminal; nunca se usan para inferir supervivencia. after_victory se configura en settlement.json; el contenido fall.json contiene el catálogo central de estados nuevos, las ramas y los entornos. No hay cadenas de estado de este capítulo dispersas en sistemas generales.
+
+Tras reconocer la victoria en Continuar historia: breve alivio, fuerza superior, ataque visual, consecuencias de la terminal, intento de rescate, captura de Lira, inconsciencia, despertar y título del Capítulo I. Ganar no implica que el civil esté vivo. Si no lo está, no tiene actor, cuerpo ni diálogo durante la continuación. Si fue advertido y sobrevivió reconoce el aviso; un superviviente no advertido tiene texto diferente.
+
+Con testigo, convoy_route_known e industrial_bridge_known se establecen por diálogo y convoy_route_source=witness; basic_supplies es una ventaja narrativa booleana, sin inventario. Sin testigo, dos elementos examinados distintos activan convoy_route_known por state_rules, source=investigation e industrial_bridge_known sigue false. Reexaminar no aumenta un contador: count deriva de claves examined únicas. Ambas rutas habilitan salida al norte conservando distinto detalle.
+
+Las ruinas solo contienen pistas y, condicionalmente, al testigo. Lira y los civiles cotidianos no reaparecen. El título no repite la intro y un estado restaurado selecciona las ruinas. No hay todavía guardado/carga en disco, segundo combate, puente jugable ni puesto de control.
+
+Los héroes a 0 PV en el combate representan incapacitación táctica; la continuación muestra recuperación/agotamiento antes de la captura canónica, sin alterar sus PV ni el snapshot del resultado. La muerte/captura del civil sí controla su ausencia. No se convierte a Lira en enemiga ni se revela su destino.

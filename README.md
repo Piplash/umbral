@@ -1,5 +1,7 @@
 # UMBRAL — Defensa del asentamiento
 
+**Iteración 6:** después de ganar el primer combate, pulsa **Continuar historia** en los resultados. La caída del asentamiento y captura de Lira conducen al **Capítulo I: Los que quedaron**, con ruinas explorables y una ruta del convoy que depende del testigo o de investigar dos pistas. La derrota conserva su reintento. No hay segundo combate ni siguiente mapa. Ver docs/CHAPTER_1.md y docs/ITERATION_6_PROGRESS.md para ejecución, pruebas seleccionadas y límites.
+
 **Iteración 5 — El último refugio:** plaza empedrada, viviendas y tecnología reutilizada, luz localizada, HUD discreto e introducción con tres ilustraciones originales, pan/zoom/fundidos y salto. Ver docs/ITERATION_5_PROGRESS.md y docs/VISUAL_REVIEW_ITERATION_5.md. F5 → Iniciar historia; ? abre controles de exploración.
 
 **Iteración 4:** prólogo saltable de 34 segundos, asentamiento compacto, habitantes/animales con rutinas y vistas direccionales provisionales. Ver docs/NPC_ROUTINES.md y docs/ITERATION_4_PROGRESS.md para configuración, pruebas y límites.

@@ -1162,7 +1162,7 @@
     {
       "type": "chapter_end",
       "title": "El viejo puente industrial",
-      "text": "Gael conoce la ruta que siguió el convoy. Al norte lo espera el viejo puente industrial. La continuación de ese viaje se desarrollará en una próxima misión.",
+      "text": "El viejo puente industrial queda al norte. Gael ajusta las vendas y observa el camino por el que se llevaron a Lira.\n\nCONTINUARÁ",
       "conditions": [
         {
           "bucket": "flags",
@@ -1174,7 +1174,7 @@
     {
       "type": "chapter_end",
       "title": "El camino del norte",
-      "text": "Las pistas coinciden: el convoy se dirigió al norte. Gael deberá seguir sus rastros. La continuación de ese viaje se desarrollará en una próxima misión.",
+      "text": "Los rastros conducen al norte. Gael recoge lo poco que puede cargar y se prepara para seguirlos.\n\nCONTINUARÁ",
       "conditions": [
         {
           "bucket": "flags",
@@ -2180,6 +2180,11 @@
         "seconds": 5
       },
       {
+        "type": "dialogue",
+        "speaker": "Narración",
+        "text": "Horas después..."
+      },
+      {
         "type": "environment",
         "id": "ruins"
       },
@@ -2442,7 +2447,7 @@
       {
         "type": "intro_card",
         "title": true,
-        "caption": "UMBRAL",
+        "caption": "",
         "text": "CAPÍTULO I\n\nLOS QUE QUEDARON",
         "seconds": 7,
         "transition": 0.7,

@@ -34,4 +34,12 @@ Para una entrada distinta, llamar `start_exploration(ruta_del_contenido)` o usar
 
 ## Validación
 
-Ejecutar las suites anteriores y `godot --headless --path . --script res://tests/test_story.gd`. Para capturas: `godot --path . --script res://tests/test_story_visual.gd`. Probar además clics físicos, cancelación manual, cámara, colisiones y mezcla de audio en una partida humana; la integración automatizada no sustituye esa revisión.
+Elegir pruebas incrementales según los componentes afectados. Para diálogo/preparación usar `godot --headless --path . --script res://tests/test_story.gd`; para continuación/ruinas, test_iteration6.gd. No ejecutar la suite completa por costumbre. Para capturas: `godot --path . --script res://tests/test_story_visual.gd`. Probar además clics físicos, cancelación manual, cámara, colisiones y mezcla de audio en una partida humana; la integración automatizada no sustituye esa revisión.
+
+## Continuación después de una victoria
+
+En el contenido de exploración añadir after_victory con id único, path al contenido siguiente y entry al nombre de su secuencia. MissionFlowController verifica el resultado registrado y reclama ese ID una sola vez; el botón de resultados entrega el mismo WorldState al nuevo StorySession. No poner esa transición en EnemyAI, objetivos, daño ni scripts del mapa.
+
+El contenido siguiente puede declarar base_content para reutilizar el mapa y los diálogos. Los diccionarios se fusionan y los arrays se reemplazan. environments contiene parches de presentación y base_environment opcional; environment cambia su configuración con el controlador común. Una condición path consulta el resultado, por ejemplo results → settlement → villager_survived, sin duplicar esa variable. Diseñar state_catalog y state_rules en los datos, con efectos idempotentes.
+
+Para terminar una secuencia y devolver control utilizar control; para delimitar una continuación todavía no implementada usar chapter_end con título/texto. No añadir mapas vacíos ni combates perdidos obligatorios. El ejemplo completo es fall.json; ver CHAPTER_1.md y CINEMATICS.md. Probar victoria, derrota, callback duplicado, ramas, navegación y restauración, sin volver a simular el combate si sus reglas no cambiaron.

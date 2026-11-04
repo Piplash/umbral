@@ -27,3 +27,9 @@ Un clic suspende al objetivo y lo orienta hacia Gael. Diálogos, ayuda, confirma
 Para otro contenido, suministrar bounds/start/blockers/actors y los datos visuales anteriores a start_exploration. Definir posiciones/puntos alcanzables y comprobar colisiones por separado de la silueta. Incorporar un residente desde un arquetipo/rutina compartidos, como se explica en NPC_ROUTINES.md. El único mapa táctico jugable sigue siendo 8×8; el 10×10 es fixture.
 
 Validación: test_exploration_physics.gd, test_story.gd, test_iteration4.gd y test_iteration5.gd; capturas gráficas con test_iteration5_visual.gd. Ver ITERATION_5_PROGRESS.md y VISUAL_REVIEW_ITERATION_5.md para evidencia y límites. Headless no valida calidad artística.
+
+## Ruinas del asentamiento (iteración 6)
+
+La victoria narrativa permite continuar a una secuencia que cambia el mismo mundo a su estado destruido. fall.json hereda límites/caminos y configura props dañados, ambiente frío y nuevos escombros sólidos. No hay un segundo controlador/mapa exploratorio. Los NPC rutinarios y Lira se retiran; solo el testigo condicional permanece en idle. Las tres pistas tienen marcador/área de interacción generosa y usan los mismos diálogos/aproximación.
+
+Con testigo se puede partir directamente o volver a hablar/examinar. Sin él, examinar dos pistas distintas basta en cualquier orden. Partir hacia el norte comprueba las condiciones y presenta el límite del capítulo, sin cargar el siguiente mapa. Ver CHAPTER_1.md para estados, persistencia en memoria y pruebas.
