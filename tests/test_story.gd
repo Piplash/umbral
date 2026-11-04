@@ -36,7 +36,7 @@ func run() -> void:
 	expect(nav.size() > 2, "continuous navigation detours around obstacles")
 	var main: Control = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
-	main.start_exploration()
+	main.start_exploration("res://data/narrative/settlement.json", false)
 	await process_frame
 	var session: StorySession = main.screen.get_child(0)
 	expect(session.exploration.player is CharacterBody2D, "exploration actor")

@@ -10,7 +10,7 @@ Godot 4.2.2, GDScript tipado, renderizador Compatibility. Consultar primero `AGE
 
 `project.godot` ejecuta **`scenes/main.tscn`**, un Control con `scripts/main.gd`. El controlador compone el menú, el HUD, BoardView y los diálogos por código. No existen escenas de combate diferentes para cada misión ni se ha inventado una escena Battle.tscn: ambos escenarios utilizan `start_battle(mission)` y exactamente el mismo controlador.
 
-El menú consulta `MissionCatalog.missions()`, que descubre recursos BattleMissionData en `data/missions/`. El OptionButton guarda el recurso seleccionado. Iniciar crea un BattleManager nuevo con esa misión; reiniciar conserva la elección y crea estado nuevo. Volver al menú mantiene la elección, pero no conserva PV, acciones, captura ni corrutinas de la partida anterior.
+El menú normal inicia StorySession. El OptionButton de MissionCatalog se conserva oculto para fixtures; no ofrece el 10×10 al jugador. La historia prepara una copia de la misión 8×8 y `start_battle(mission)` crea BattleManager; reiniciar conserva esa preparación y crea estado táctico nuevo. Volver al menú mantiene la elección, pero no conserva PV, acciones, captura ni corrutinas de la partida anterior.
 
 La presentación del asentamiento es la escena reutilizable **`scenes/maps/settlement_visual.tscn`**, con SettlementView. El mapa de prueba deja `visual_scene` vacío y usa MapVisual, la presentación genérica. Son vistas ambientales, no implementaciones de combate.
 
@@ -27,7 +27,7 @@ Los recursos de configuración se tratan como **solo lectura durante una batalla
 | Condición | BattleCondition y subclases en `scripts/data/` | Regla evaluable y mensaje, sin referencias a escenas |
 | Unidad viva | `scripts/unit.gd` / TacticalUnit | Copia de estadísticas, PV, casilla, acciones, estados y enfriamientos; referencia de solo lectura a su definición |
 
-Recursos actuales: `data/maps/{settlement,test_field}.tres`, `data/missions/{settlement,test_field}.tres`, cinco definiciones en `data/units/` y tres condiciones en `data/objectives/`. Se conservaron exactamente las estadísticas anteriores.
+Recursos actuales: `data/maps/{settlement,test_field}.tres`, `data/missions/{settlement,test_field}.tres`, seis definiciones en `data/units/` (incluido el explorador de la historia) y tres condiciones en `data/objectives/`. Se conservaron exactamente las estadísticas anteriores.
 
 Un `instance_id` identifica una unidad en esa batalla; `definition_id` identifica su arquetipo; `art_key` identifica una región de atlas. Ya no son necesariamente el mismo valor. Se pueden crear varios soldados desde la misma definición y asignarles IDs distintos sin modificar IA, resultados ni animación.
 
@@ -61,7 +61,7 @@ La previsualización usa el mismo BFS y las mismas reglas. Deshacer requiere no 
 
 ## IA y rangos
 
-**EnemyAI** recibe unidades y GridManager. El comportamiento proviene de UnitDefinition: `aggressive`, `capture`, `passive` o `player`. Un agresor ataca a un aliado adyacente o busca al aliado con ruta más corta. Un capturador busca una casilla junto a `capture_target`, referencia resuelta desde `mission.protected_unit_id`; no busca un ID literal civil ni un índice de array. La interferencia inmoviliza y bloquea captura, pero no ataques adyacentes.
+**EnemyAI** recibe unidades y GridManager. El comportamiento proviene de UnitDefinition: `aggressive`, `flanker`, `capture`, `passive`, `wander`, `seek_shelter` o `player`. Un agresor ataca a un aliado adyacente o busca al aliado con ruta más corta. Un capturador busca una casilla junto a `capture_target`, referencia resuelta desde `mission.protected_unit_id`; no busca un ID literal civil ni un índice de array. La interferencia inmoviliza y bloquea captura, pero no ataques adyacentes.
 
 El juego usa `enemy_move`, espera `BoardView.settled`, ejecuta `enemy_action` y vuelve a esperar. `enemy_activation` conserva la entrada síncrona que combina ambas para las simulaciones de reglas. No hay una estrategia distinta por mapa.
 
@@ -94,7 +94,7 @@ Capas: Ground, Lower, Obstacles, superposición táctica de BoardView, Units, Up
 
 **ArtLibrary** obtiene sprites/retratos desde UnitDefinition: texturas explícitas si están asignadas o `art_key` del atlas existente. Una nueva definición con sus texturas no exige añadir su ID a una lista de personajes. Los atlas originales y WAV se conservaron.
 
-`main.gd` sigue componiendo el HUD por código y coordinando entradas/presentación. Muestra objetivos, umbral y totales desde la misión. Su composición general conserva el lienzo 960×540; el listado de retratos tiene scroll para no presuponer cinco participantes. La selección de escenarios es el único control nuevo del menú. Extraer el HUD a una escena independiente sigue siendo una posible mejora, no se hizo una reescritura de UI para esta tarea.
+`main.gd` sigue componiendo el HUD por código y coordinando entradas/presentación. Muestra objetivos, umbral y totales desde la misión. Su composición general conserva el lienzo 960×540; el listado de retratos tiene scroll para no presuponer cinco participantes. El menú visible ofrece Iniciar historia; la selección de fixtures no es visible. Extraer el HUD a una escena independiente sigue siendo una posible mejora, no se hizo una reescritura de UI para esta tarea.
 
 **UmbralAudio** no conoce mapas ni personajes: recibe cues, organiza la cola SFX y eventos UI, administra buses Master/Music/SFX/UI y guarda preferencias con ConfigFile. La pausa congela presentación y SFX. Reiniciar no restablece los ajustes de audio.
 
@@ -113,13 +113,25 @@ flowchart LR
   V -->|settled| C[Secuenciación en main.gd]
   D --> A[MapVisual / SettlementView]
   B -->|sound_requested| S[UmbralAudio]
-  B -->|battle_completed| N[Futuro consumidor narrativo]
+  B -->|battle_completed| N[MissionFlowController]
 ```
 
 Los sistemas de reglas no importan escenas. Las condiciones no dependen del controlador visual. La vista consulta estado pero no define daño, rutas, condiciones ni IA. Las señales de presentación (`route_requested`, `animation_requested`, `impact`), estado (`changed`, `event`, `invalid_action`) y cierre mantienen esas fronteras.
 
 ## Mapas nuevos y límites reales
 
-Crear un BattleMapData y un BattleMissionData con apariciones y condiciones; guardarlos bajo `data/maps/` y `data/missions/`. El selector descubre la misión automáticamente. Reutilizar las definiciones y, opcionalmente, asociar una escena MapVisual. No copiar scripts de combate. Ver ejemplos completos en `CREATING_MAPS.md`.
+Crear un BattleMapData y un BattleMissionData con apariciones y condiciones; guardarlos bajo `data/maps/` y `data/missions/`. MissionCatalog descubre la misión para pruebas; incorporarla a una historia exige referenciarla desde su contenido narrativo. Reutilizar las definiciones y, opcionalmente, asociar una escena MapVisual. No copiar scripts de combate. Ver ejemplos completos en `CREATING_MAPS.md`.
 
 Las dimensiones y geometría ya son dinámicas y se prueban mapas no cuadrados. La cámara sigue fija; mapas enormes se reducen para caber y necesitarían una cámara desplazable para conservar legibilidad. Los costes de terreno son uniformes. Solo hay un objetivo de captura/progreso por misión; varios civiles simultáneos requerirían ampliar CaptureSystem. Las reglas de habilidades actuales siguen implementadas por código de habilidad; crear personajes no exige programarlas de nuevo, crear poderes nuevos sí exige lógica nueva y pruebas. Los dos mapas, cuatro partidas de reglas y ambos HUD se han verificado según el informe de pruebas.
+
+## Iteración 4: actores ambientales y prólogo
+
+ExplorationController conserva el contrato JSON y la navegación existente. ExplorationScenery dibuja suelo, props y decoración estática en una capa independiente, sin reconstruirla cada frame. El mapa de exploración mide 1080×780; el tablero táctico sigue midiendo 8×8.
+
+ExplorationActor (CharacterBody2D) concentra colisión, velocidad, recorrido y llegada. ExplorationPlayer añade InputMap y cancelación manual; AmbientActor consume rutas y suspensión. DirectionalVisual recibe velocidad, carrera e interacción sin decidir desplazamientos. Usa cuatro regiones distintas del atlas, conserva orientación en idle e histéresis de eje en diagonales. El ciclo de pasos por piezas es provisional, no un spritesheet multiframe dibujado.
+
+AmbientRoutines registra los actores una vez, coordina pausas, puntos, áreas y reservas de destinos. Reutiliza InteractionNavigation (grafo de visibilidad AStar2D) con obstáculos estáticos y cuerpos actuales; no calcula rutas cada frame. Un bloqueo físico cancela el tramo después de 1,5 segundos y permite reintentar con pausa. No es un planificador global de multitudes. `interaction_target` suspende al interlocutor durante la aproximación; `player.locked` congela todas las rutinas durante diálogo, confirmación y cinemática.
+
+StorySession interpreta tanto `intro` como `sequence` mediante `play_actions`. Las acciones admiten condiciones del evaluador existente. `intro_card` añade texto progresivo, fondo de atlas con desplazamiento, avance protegido frente a doble clic y salto global. Cuatro tarjetas duran 34 segundos por configuración, más un fundido final de 0,6 segundos. La exploración está instanciada y bloqueada bajo las tarjetas; se libera al acabar. Solo una nueva StorySession reproduce la introducción; reintentar combate conserva el flujo actual.
+
+BattlePreparationResolver añade `unit_position` y `add_unit`, además de los modificadores anteriores. Las diferencias de civil y el explorador se configuran en settlement.json, sin duplicar la misión. EnemyAI comparte rutas y ataques para `flanker`: pondera longitud de ruta, defensa y PV del objetivo, favoreciendo aliados vulnerables. Las demás IA conservan su valoración anterior. Ver NPC_ROUTINES.md y ITERATION_4_PROGRESS.md para configuración, arte y evidencia.

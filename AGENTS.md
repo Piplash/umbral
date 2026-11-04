@@ -78,3 +78,13 @@ Estas son normas generales y permanentes, no instrucciones limitadas a una itera
 - Definir elecciones, condiciones y efectos mediante datos. Un evaluador central comprueba condiciones y un resolver aplica efectos; la UI no decide consecuencias. No ejecutar expresiones arbitrarias de los datos.
 - Priorizar profundidad narrativa. El único escenario táctico visible actualmente es el asentamiento original 8×8. Conservar dimensiones dinámicas y el 10×10 como fixture automatizado, sin selector jugable ni decoración adicional. No crear mapas de demostración sin necesidad de misión.
 - Preservar Godot 4.x/GDScript, recursos, HUD, estadísticas y habilidades; no modificar mecánicas ajenas, añadir dependencias innecesarias ni inventar resultados de pruebas. Documentar contratos entre sistemas.
+
+## Asentamiento, animación y rutinas
+
+- Toda funcionalidad nueva será reutilizable/configurable. No duplicar controladores por NPC, personaje o escenario; compartir animación, navegación, rutinas, diálogo e interacción.
+- Priorizar mapas compactos, legibles y organizados intencionalmente. No ampliar superficies para evitar diseñar su distribución; la decoración debe comunicar función, actividad, cultura o historia.
+- Separar movimiento y representación. Orientar según velocidad real o interacción; idle conserva orientación. Admitir idle/walk/run/interact configurables. No simular arriba con inversión vertical ni resolver todas las direcciones solo con flip horizontal. Los pasos no se reinician cada frame.
+- Las rutinas ambientales serán configurables y compatibles con navegación, colisiones, diálogos y eventos. Usar un coordinador compartido, no temporizadores dispersos por NPC. Suspender y reanudar durante diálogos/cinemáticas; no implementar horarios complejos sin necesidad.
+- Conservar el combate 8×8 como único escenario actual, manteniendo dimensiones dinámicas para pruebas. No añadir mapas tácticos de demostración.
+- Las introducciones y secuencias utilizarán acciones narrativas configurables reutilizables. No incrustar una cinemática rígida por escena.
+- Añadir pruebas razonables y documentación de reutilización; no declarar finalizado lo que no se haya verificado. Registrar etapas y pendientes en docs/ITERATION_4_PROGRESS.md si una iteración queda parcial.

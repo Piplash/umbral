@@ -1,7 +1,7 @@
 {
   "bounds": [
-    1400,
-    900
+    1080,
+    780
   ],
   "start": [
     500,
@@ -21,10 +21,10 @@
       130
     ],
     [
-      900,
-      170,
-      190,
-      140
+      865,
+      160,
+      130,
+      110
     ],
     [
       150,
@@ -33,10 +33,22 @@
       110
     ],
     [
-      960,
+      900,
       620,
-      170,
-      120
+      140,
+      100
+    ],
+    [
+      665,
+      285,
+      40,
+      35
+    ],
+    [
+      370,
+      650,
+      90,
+      25
     ]
   ],
   "props": [
@@ -49,52 +61,143 @@
     ],
     [
       4,
-      900,
-      110,
-      230,
-      230
+      830,
+      85,
+      200,
+      210
     ],
     [
       5,
-      960,
-      580,
-      210,
-      180
+      875,
+      570,
+      180,
+      155
     ],
     [
       14,
-      140,
-      610,
+      640,
+      240,
+      85,
+      100
+    ],
+    [
+      7,
+      15,
+      5,
+      160,
+      185
+    ],
+    [
+      7,
+      930,
+      20,
       150,
-      140
+      175
     ],
     [
       7,
-      20,
-      20,
-      180,
-      210
-    ],
-    [
-      7,
-      1150,
-      20,
-      190,
-      210
-    ],
-    [
-      7,
-      1180,
-      700,
-      180,
-      190
+      930,
+      690,
+      160,
+      180
     ],
     [
       10,
-      610,
-      150,
+      590,
       170,
-      80
+      160,
+      70
+    ],
+    [
+      10,
+      165,
+      350,
+      130,
+      55
+    ],
+    [
+      13,
+      810,
+      240,
+      38,
+      42
+    ],
+    [
+      13,
+      850,
+      250,
+      32,
+      38
+    ],
+    [
+      8,
+      740,
+      295,
+      40,
+      45
+    ],
+    [
+      8,
+      780,
+      300,
+      35,
+      40
+    ],
+    [
+      8,
+      830,
+      540,
+      40,
+      45
+    ],
+    [
+      11,
+      410,
+      170,
+      80,
+      65
+    ],
+    [
+      11,
+      110,
+      420,
+      75,
+      55
+    ],
+    [
+      11,
+      680,
+      690,
+      80,
+      60
+    ],
+    [
+      15,
+      1000,
+      365,
+      40,
+      110
+    ],
+    [
+      10,
+      965,
+      500,
+      100,
+      50
+    ],
+    [
+      12,
+      550,
+      345,
+      35,
+      48
+    ],
+    [
+      4,
+      120,
+      550,
+      210,
+      205
     ]
   ],
   "actors": [
@@ -106,7 +209,27 @@
         650,
         420
       ],
-      "dialogue": "lira"
+      "dialogue": "lira",
+      "visual_row": 1,
+      "speed": 43,
+      "routine": {
+        "type": "patrol",
+        "pause": 3.5,
+        "points": [
+          [
+            650,
+            420
+          ],
+          [
+            710,
+            350
+          ],
+          [
+            460,
+            420
+          ]
+        ]
+      }
     },
     {
       "id": "villager",
@@ -116,7 +239,11 @@
         520,
         610
       ],
-      "dialogue": "villager"
+      "dialogue": "villager",
+      "visual_row": 2,
+      "routine": {
+        "type": "idle"
+      }
     },
     {
       "id": "neighbor",
@@ -126,7 +253,12 @@
         850,
         440
       ],
-      "dialogue": "neighbor"
+      "dialogue": "neighbor",
+      "visual_row": 4,
+      "routine": {
+        "type": "socialize",
+        "partner": "woman_b"
+      }
     },
     {
       "id": "terminal",
@@ -147,6 +279,181 @@
         350
       ],
       "dialogue": "ruins"
+    },
+    {
+      "id": "woman_a",
+      "name": "Elena",
+      "visual_row": 3,
+      "position": [
+        460,
+        300
+      ],
+      "routine": {
+        "type": "patrol",
+        "points": [
+          [
+            460,
+            300
+          ],
+          [
+            730,
+            500
+          ]
+        ],
+        "pause": 4
+      },
+      "speed": 32,
+      "dialogue": "woman_a"
+    },
+    {
+      "id": "woman_b",
+      "name": "Mara",
+      "visual_row": 3,
+      "position": [
+        810,
+        420
+      ],
+      "routine": {
+        "type": "socialize",
+        "partner": "neighbor"
+      },
+      "speed": 32,
+      "dialogue": "woman_b"
+    },
+    {
+      "id": "worker_a",
+      "name": "Reparador",
+      "visual_row": 4,
+      "position": [
+        860,
+        570
+      ],
+      "routine": {
+        "type": "work",
+        "pause": 3
+      },
+      "speed": 32,
+      "dialogue": "worker_a"
+    },
+    {
+      "id": "worker_b",
+      "name": "Transportista",
+      "visual_row": 4,
+      "position": [
+        590,
+        340
+      ],
+      "routine": {
+        "type": "patrol",
+        "points": [
+          [
+            590,
+            340
+          ],
+          [
+            750,
+            530
+          ]
+        ],
+        "pause": 3
+      },
+      "speed": 32,
+      "dialogue": "worker_b"
+    },
+    {
+      "id": "elder",
+      "name": "Vecino mayor",
+      "visual_row": 2,
+      "position": [
+        395,
+        625
+      ],
+      "routine": {
+        "type": "idle"
+      },
+      "speed": 32,
+      "dialogue": "elder"
+    },
+    {
+      "id": "child",
+      "name": "Niño",
+      "visual_row": 5,
+      "position": [
+        330,
+        480
+      ],
+      "routine": {
+        "type": "wander",
+        "area": [
+          300,
+          440,
+          100,
+          100
+        ],
+        "pause": 1.8
+      },
+      "speed": 32,
+      "dialogue": "child"
+    },
+    {
+      "id": "dog",
+      "name": "Perro",
+      "visual_row": 6,
+      "position": [
+        700,
+        585
+      ],
+      "routine": {
+        "type": "wander",
+        "area": [
+          630,
+          560,
+          100,
+          80
+        ],
+        "pause": 2
+      },
+      "speed": 28
+    },
+    {
+      "id": "hen_a",
+      "name": "Gallina",
+      "visual_row": 7,
+      "position": [
+        160,
+        450
+      ],
+      "routine": {
+        "type": "wander",
+        "area": [
+          135,
+          425,
+          100,
+          65
+        ],
+        "pause": 1.5
+      },
+      "speed": 28
+    },
+    {
+      "id": "hen_b",
+      "name": "Gallina",
+      "visual_row": 7,
+      "position": [
+        220,
+        450
+      ],
+      "routine": {
+        "type": "wander",
+        "area": [
+          135,
+          425,
+          100,
+          65
+        ],
+        "pause": 2
+      },
+      "speed": 28
     }
   ],
   "dialogues": {
@@ -253,6 +560,72 @@
         }
       ],
       "examined_id": "ruins"
+    },
+    "woman_a": {
+      "speaker": "Elena",
+      "lines": [
+        "El huerto nos da menos cada año. Al menos aún podemos compartirlo."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
+    },
+    "woman_b": {
+      "speaker": "Mara",
+      "lines": [
+        "Hay que repartir las provisiones antes de que anochezca."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
+    },
+    "worker_a": {
+      "speaker": "Reparador",
+      "lines": [
+        "Este relé lleva reparaciones de tres generaciones. No durará mucho más."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
+    },
+    "worker_b": {
+      "speaker": "Transportista",
+      "lines": [
+        "Si se corta el camino, estas cajas serán todo lo que nos quede."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
+    },
+    "elder": {
+      "speaker": "Vecino mayor",
+      "lines": [
+        "Cuando el pueblo se reúne, las noches pesan menos."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
+    },
+    "child": {
+      "speaker": "Niño",
+      "lines": [
+        "Lira dice que las luces del norte se ven hasta desde el bosque."
+      ],
+      "choices": [
+        {
+          "text": "Volver."
+        }
+      ]
     }
   },
   "modifiers": [
@@ -290,14 +663,54 @@
         }
       ],
       "message": "Defensas activas"
+    },
+    {
+      "type": "unit_position",
+      "unit": "civil",
+      "cell": [
+        4,
+        3
+      ],
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": false
+        }
+      ],
+      "message": "El aldeano fue sorprendido"
+    },
+    {
+      "type": "unit_position",
+      "unit": "civil",
+      "cell": [
+        1,
+        3
+      ],
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "add_unit",
+      "unit": "scout",
+      "definition": "res://data/units/scout.tres",
+      "cell": [
+        7,
+        0
+      ]
     }
   ],
   "sequence": [
     {
       "type": "camera",
       "position": [
-        1050,
-        450
+        950,
+        430
       ]
     },
     {
@@ -311,7 +724,7 @@
         "name": "Autoridad",
         "art": "soldier",
         "position": [
-          1200,
+          1100,
           450
         ]
       }
@@ -320,7 +733,7 @@
       "type": "move",
       "id": "troops",
       "position": [
-        1000,
+        950,
         470
       ]
     },
@@ -331,7 +744,7 @@
         "name": "Autoridad",
         "art": "captor",
         "position": [
-          1260,
+          1140,
           500
         ]
       }
@@ -340,7 +753,7 @@
       "type": "move",
       "id": "capture_troops",
       "position": [
-        1090,
+        1000,
         520
       ]
     },
@@ -370,6 +783,45 @@
       ]
     },
     {
+      "type": "dialogue",
+      "speaker": "Aldeano",
+      "text": "¡Es como me dijiste! Voy al almacén.",
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "move",
+      "id": "villager",
+      "position": [
+        390,
+        600
+      ],
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Aldeano",
+      "text": "¿Qué está pasando? ¡Los soldados están aquí! No sé adónde ir.",
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": false
+        }
+      ]
+    },
+    {
       "type": "fade"
     },
     {
@@ -386,8 +838,8 @@
       "rect": [
         448,
         0,
-        384,
-        900
+        256,
+        780
       ],
       "tile": 2
     },
@@ -395,11 +847,82 @@
       "rect": [
         0,
         448,
-        1400,
-        128
+        1080,
+        96
       ],
       "tile": 2
     }
   ],
-  "battle_mission": "res://data/missions/settlement.tres"
+  "battle_mission": "res://data/missions/settlement.tres",
+  "decorations": [
+    {
+      "type": "garden",
+      "rect": [
+        110,
+        370,
+        160,
+        95
+      ]
+    },
+    {
+      "type": "laundry",
+      "rect": [
+        240,
+        345,
+        150,
+        65
+      ]
+    },
+    {
+      "type": "cable",
+      "points": [
+        [
+          790,
+          650
+        ],
+        [
+          850,
+          605
+        ],
+        [
+          920,
+          640
+        ]
+      ]
+    },
+    {
+      "type": "bench",
+      "rect": [
+        370,
+        650,
+        90,
+        25
+      ]
+    }
+  ],
+  "intro": [
+    {
+      "type": "intro_card",
+      "text": "Durante generaciones, las grandes ciudades sobrevivieron gracias a una energía cuyo origen pocos se atrevían a cuestionar.",
+      "seconds": 9,
+      "prop": 5
+    },
+    {
+      "type": "intro_card",
+      "text": "Lejos de sus muros, los asentamientos aprendieron a sobrevivir con lo poco que quedaba.",
+      "seconds": 9,
+      "prop": 4
+    },
+    {
+      "type": "intro_card",
+      "text": "Para Gael y Lira, aquel día comenzó como cualquier otro.",
+      "seconds": 8,
+      "prop": 7
+    },
+    {
+      "type": "intro_card",
+      "text": "PRÓLOGO\n\nANTES DEL SILENCIO",
+      "seconds": 8
+    }
+  ]
 }

@@ -26,7 +26,7 @@ func _initialize() -> void:
 func run() -> void:
 	var main: Control = load("res://scenes/main.tscn").instantiate()
 	root.add_child(main)
-	main.start_exploration()
+	main.start_exploration("res://data/narrative/settlement.json", false)
 	await frames(2)
 	var session: StorySession = main.screen.get_child(0)
 	var world: ExplorationController = session.exploration
@@ -77,7 +77,7 @@ func run() -> void:
 	session.dialog.queue_free()
 	player.locked = false
 	expect(main.story_flow.phase == "exploration", "cancel preserves exploration")
-	expect(world.camera.limit_right == 1400 and world.camera.limit_bottom == 900, "configured camera bounds")
+	expect(world.camera.limit_right == world.content.bounds[0] and world.camera.limit_bottom == world.content.bounds[1], "configured camera bounds")
 	main.show_menu()
 	main.queue_free()
 	await process_frame

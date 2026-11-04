@@ -1,8 +1,10 @@
 # UMBRAL — Defensa del asentamiento
 
+**Iteración 4:** prólogo saltable de 34 segundos, asentamiento compacto, habitantes/animales con rutinas y vistas direccionales provisionales. Ver docs/NPC_ROUTINES.md y docs/ITERATION_4_PROGRESS.md para configuración, pruebas y límites.
+
 **Iteración narrativa:** F5 → Iniciar historia. WASD/flechas, Shift para correr y clic en NPC/objetos. Continuar historia confirma el avance, reproduce la cinemática y abre el combate 8×8 con consecuencias de decisiones. El selector táctico de escenarios ya no es visible. Consultar docs/ITERATION3.md y docs/CREATING_MISSIONS.md; los apartados históricos sobre selección de escenarios se mantienen como referencia de pruebas.
 
-Prototipo jugable de combate táctico de ciencia ficción, en español. Dos gemelos defienden a un civil frente a un soldado y un capturador. Presentación rural decadente con atlas de pixel art originales generados para el proyecto, personajes independientes, retratos y HUD ornamental. Sin plugins ni dependencias externas de ejecución.
+Prototipo jugable de combate táctico de ciencia ficción, en español. Dos gemelos defienden a un civil frente a un soldado, un capturador y un explorador en la historia. Presentación rural decadente con atlas de pixel art originales generados para el proyecto, personajes independientes, retratos y HUD ornamental. Sin plugins ni dependencias externas de ejecución.
 
 ## Abrir y jugar
 
@@ -47,7 +49,7 @@ La ruta dorada sigue el mismo BFS que el movimiento real. Azul indica destinos d
 ## Reglas y ayuda
 
 - Gael: 60 PV, ataque 12, defensa 4, movimiento 4. Lira: 40 PV, ataque 6, defensa 2, movimiento 4.
-- Soldado: 40 PV, ataque 10, defensa 3, movimiento 3. Capturador: 30 PV, ataque 7, defensa 2, movimiento 3. Civil neutral inmóvil: 25 PV.
+- Soldado: 40 PV, ataque 10, defensa 3, movimiento 3. Capturador: 30 PV, ataque 7, defensa 2, movimiento 3. Explorador de la historia: 22 PV, ataque 6, defensa 1, movimiento 5. Civil: 25 PV y movimiento 2 en la misión narrativa (inmóvil en el fixture base).
 - Cada gemelo mueve una vez y realiza una acción una vez, en cualquier orden. Después de atacar o defender puede seguir moviéndose si conserva el movimiento. La fase termina automáticamente cuando todos los gemelos vivos han gastado ambos recursos; también puedes finalizarla con F.
 - Ataque básico: alcance ortogonal 1, `max(1, ataque − defensa)`.
 - Golpe contundente: `max(1, floor(ataque × 1.5) − defensa)`. Bloquea las **dos fases aliadas completas siguientes**. Usado en T01, vuelve en T04.

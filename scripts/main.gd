@@ -192,7 +192,7 @@ func show_menu() -> void:
 	button(panel, "Salir", func() -> void: get_tree().quit())
 	text(panel, "COMBATE TÁCTICO · CIENCIA FICCIÓN RURAL", 10).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
-func start_exploration(content_path: String = "res://data/narrative/settlement.json") -> void:
+func start_exploration(content_path: String = "res://data/narrative/settlement.json", play_intro: bool = true) -> void:
 	clear_screen()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	battle = null
@@ -201,6 +201,7 @@ func start_exploration(content_path: String = "res://data/narrative/settlement.j
 	var session: StorySession = StorySession.new()
 	session.host = self
 	session.flow = story_flow
+	session.play_intro = play_intro
 	session.content = JSON.parse_string(FileAccess.get_file_as_string(content_path))
 	screen.add_child(session)
 

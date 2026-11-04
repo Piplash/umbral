@@ -38,7 +38,7 @@ func validation_errors() -> PackedStringArray:
 		occupied[cell] = true
 		if spawn.definition.definition_id.is_empty() or spawn.definition.max_hp <= 0 or spawn.definition.movement < 0 or spawn.definition.attack < 0 or spawn.definition.defense < 0:
 			errors.append("Estadísticas inválidas: %s" % spawn.instance_id)
-		if spawn.definition.team not in ["ally", "enemy", "neutral"] or spawn.definition.behavior not in ["player", "aggressive", "capture", "passive", "wander", "seek_shelter"]:
+		if spawn.definition.team not in ["ally", "enemy", "neutral"] or spawn.definition.behavior not in ["player", "aggressive", "capture", "passive", "wander", "seek_shelter", "flanker"]:
 			errors.append("Equipo o comportamiento inválido: %s" % spawn.instance_id)
 	if not protected_unit_id.is_empty() and not ids.has(protected_unit_id):
 		errors.append("La unidad protegida no participa en la misión.")

@@ -16,6 +16,17 @@ static func prepare(base: BattleMissionData, state: WorldState, modifiers: Array
 		if modifier.has("message"):
 			mission.preparation_messages.append(modifier.message)
 		match modifier.type:
+			"add_unit":
+				var spawn: UnitSpawnData = UnitSpawnData.new()
+				spawn.instance_id = modifier.unit
+				spawn.definition = load(modifier.definition) as UnitDefinition
+				spawn.position = Vector2i(modifier.cell[0], modifier.cell[1])
+				mission.participants.append(spawn)
+			"unit_position":
+				for spawn: UnitSpawnData in mission.participants:
+					if spawn.instance_id == modifier.unit:
+						spawn.position = Vector2i(modifier.cell[0], modifier.cell[1])
+						spawn.spawn_point = ""
 			"unit_behavior":
 				for spawn: UnitSpawnData in mission.participants:
 					if spawn.instance_id == modifier.unit:

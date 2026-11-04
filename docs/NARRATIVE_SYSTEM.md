@@ -6,7 +6,7 @@ ConditionEvaluator compara condiciones `{bucket,key,value}` mediante igualdad y 
 
 StorySession presenta conversaciones configuradas con speaker, art opcional, lines, choices, conditions y effects. Completar una conversación registra su ID; examined_id registra objetos examinados. El aldeano ofrece los textos solicitados y registra `villager_warned`; omitir la conversación equivale a false.
 
-BattlePreparationResolver copia misión, mapa, cada aparición y cada definición explícitamente (sin confiar en copias profundas de arrays Resource de Godot 4.2). Aplica modificadores combinables de unit_behavior y barrier. El civil preparado tiene movimiento 2: wander por defecto, seek_shelter si fue advertido. La barrera está en (5,3); la base no cambia. Los mensajes de preparación se obtienen de modificadores realmente aplicados.
+BattlePreparationResolver copia misión, mapa, cada aparición y cada definición explícitamente (sin confiar en copias profundas de arrays Resource de Godot 4.2). Aplica modificadores combinables de unit_behavior, barrier, unit_position y add_unit. El civil preparado tiene movimiento 2: wander por defecto, seek_shelter si fue advertido. La barrera está en (5,3); la base no cambia. Los mensajes de preparación se obtienen de modificadores realmente aplicados.
 
 NeutralAI comparte BFS y ThreatSystem: Wander elige destinos deterministas sin estrategia protectora; SeekShelter compara rutas legales y peligro, prefiriendo posiciones sin amenaza. Los neutrales actúan después de los enemigos y antes de renovar aliados. Siguen siendo objetivos de captura y permanecen dentro del tablero. Refugio configurado: (0,3).
 
@@ -15,3 +15,13 @@ MissionFlowController consolida decisiones, crea una misión preparada y guarda 
 Al terminar, se restaura el snapshot precombate y se registra un resultado estructurado por misión: outcome, unidades/PV, supervivencia del aldeano, preparaciones y eventos. Reintentar restaura las decisiones previas, elimina el resultado del intento anterior y reinicia el mismo combate preparado. No hay recompensas duplicadas ni siguiente misión automática.
 
 El controlador táctico no conoce NPC de exploración. El 10×10 permanece disponible exclusivamente para tests/API de desarrollo; el selector está oculto en la interfaz normal. Las modalidades futuras de reclutamiento, relaciones, rutas y reputación no están implementadas.
+
+## Consecuencias y prólogo (iteración 4)
+
+El civil advertido comienza en (1,3), conserva movimiento 2 y seek_shelter hacia el refugio (0,3). Sin advertencia aparece expuesto en (4,3), movimiento 2 y wander. La cinemática usa condiciones sobre villager_warned: reconoce la advertencia y camina hacia protección, o reacciona con confusión. El texto de sorpresa también es válido cuando se omitió la conversación. Los mensajes tácticos proceden únicamente de los modificadores aplicados. La terminal mantiene su barrera (5,3), sin duplicar mapa ni misión.
+
+`add_unit` incorpora scout en (7,0), desde data/units/scout.tres: 22 PV, ATQ 6, DEF 1, MOV 5, comportamiento flanker. Reutiliza sprite/animaciones de soldado, rutas, rangos, ataques y turnos; se distingue por nombre y color táctico. El recurso base conserva sus cinco participantes para fixtures; la misión preparada de historia tiene seis, tres enemigos.
+
+`intro` contiene cuatro acciones intro_card (9/9/8/8 segundos), previas a la exploración: presentación energética, asentamientos, Gael/Lira y PRÓLOGO / ANTES DEL SILENCIO. Cada tarjeta admite text, seconds y prop opcional; muestra texto progresivo y capas reutilizadas con pan/fundido. No son ilustraciones cinematográficas finales. Continuar cambia tarjeta; Saltar introducción sale de toda la introducción. La generación de tarjeta invalida clics antiguos. El control y las rutinas permanecen bloqueados hasta el fundido final. Reiniciar la batalla no crea otra StorySession; una nueva partida sí reproduce el prólogo.
+
+Las condiciones de acción se evalúan en play_actions, compartido con la secuencia de ataque. move puede orientar/animar actores ambientales registrados sin dejar que su rutina compita con el tween. Los actores de tropas de la secuencia conservan el arte táctico anterior. No se añadió vídeo, sistema narrativo paralelo ni persistencia en disco.

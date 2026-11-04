@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "scout"
+display_name = "Explorador de la Autoridad"
+team = "enemy"
+max_hp = 22
+attack = 6
+defense = 1
+movement = 5
+behavior = "flanker"
+art_key = "soldier"
+tactical_color = Color(0.77, 0.74, 0.45, 1)
