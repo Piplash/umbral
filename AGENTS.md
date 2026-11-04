@@ -88,3 +88,11 @@ Estas son normas generales y permanentes, no instrucciones limitadas a una itera
 - Conservar el combate 8×8 como único escenario actual, manteniendo dimensiones dinámicas para pruebas. No añadir mapas tácticos de demostración.
 - Las introducciones y secuencias utilizarán acciones narrativas configurables reutilizables. No incrustar una cinemática rígida por escena.
 - Añadir pruebas razonables y documentación de reutilización; no declarar finalizado lo que no se haya verificado. Registrar etapas y pendientes en docs/ITERATION_4_PROGRESS.md si una iteración queda parcial.
+
+## Dirección artística permanente — El último refugio
+
+- Mantener pixel art detallado, proporciones y perspectiva cenital/tres cuartos coherentes, colores apagados, contrastes controlados y luz cálida localizada sobre sombras frías. Integrar tecnología industrial deteriorada en la vida rural; evitar elementos modernos ajenos al mundo.
+- Componer mapas intencionalmente: viviendas agrupadas, caminos conectados, espacios comunitarios y maquinaria con función. Evitar superficies vacías, decoración repetitiva, duplicados visibles cercanos y población aleatoria.
+- Usar la referencia aprobada como criterio de composición y atmósfera. Inspeccionarla realmente antes de compararla; nunca usar la composición completa ni recortes de ella como mapa, edificios o personajes jugables.
+- Integrar recursos individuales mediante componentes reutilizables; mantener separados arte, configuración, colisiones, navegación, interacción, cinemáticas, interfaz y reglas. Preservar controladores compartidos de NPC/animación y acciones narrativas configurables.
+- Conservar nearest y nitidez del pixel art. No presentar geometría simple ni placeholders como arte definitivo. No declarar validación artística a partir de compilación/headless: ejecutar, capturar, inspeccionar y documentar diferencias y pendientes visuales.
