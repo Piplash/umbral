@@ -1,5 +1,9 @@
 # Arquitectura real de UMBRAL
 
+## Actualización: ciclo narrativo
+
+El menú normal ahora ofrece Iniciar historia, que instancia `scenes/exploration.tscn` mediante StorySession y contenido de `data/narrative/settlement.json`. El selector de fixtures sigue existiendo oculto para tests; no hay selección jugable 10×10. MissionFlowController coordina WorldState → preparación independiente → secuencia → BattleManager existente → resultados/reintento. NeutralAI añade una fase neutral entre enemigos y aliados solo si existen neutrales móviles. Los recursos base siguen siendo de solo lectura. Ver EXPLORATION.md, NARRATIVE_SYSTEM.md, CREATING_MISSIONS.md e ITERATION3.md para contratos y pruebas; las secciones siguientes conservan la descripción de los sistemas tácticos.
+
 Godot 4.2.2, GDScript tipado, renderizador Compatibility. Consultar primero `AGENTS.md`. Esta documentación describe la implementación existente; la auditoría anterior al cambio está en `ARCHITECTURE_AUDIT.md`. El procedimiento de creación de contenido está en `CREATING_MAPS.md` y los resultados de validación en `ARCHITECTURE_TESTING.md`.
 
 ## Escenas y ciclo de ejecución

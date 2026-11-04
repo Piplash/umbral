@@ -8,6 +8,8 @@ extends Resource
 @export var map: BattleMapData
 @export var participants: Array[UnitSpawnData] = []
 @export_multiline var objective_text: String = ""
+@export var shelter_cells: Array[Vector2i] = []
+@export var preparation_messages: Array[String] = []
 @export var protected_unit_id: String = ""
 @export_range(1, 100) var capture_limit: int = 3
 @export var victory_conditions: Array[BattleCondition] = []
@@ -36,7 +38,7 @@ func validation_errors() -> PackedStringArray:
 		occupied[cell] = true
 		if spawn.definition.definition_id.is_empty() or spawn.definition.max_hp <= 0 or spawn.definition.movement < 0 or spawn.definition.attack < 0 or spawn.definition.defense < 0:
 			errors.append("Estadísticas inválidas: %s" % spawn.instance_id)
-		if spawn.definition.team not in ["ally", "enemy", "neutral"] or spawn.definition.behavior not in ["player", "aggressive", "capture", "passive"]:
+		if spawn.definition.team not in ["ally", "enemy", "neutral"] or spawn.definition.behavior not in ["player", "aggressive", "capture", "passive", "wander", "seek_shelter"]:
 			errors.append("Equipo o comportamiento inválido: %s" % spawn.instance_id)
 	if not protected_unit_id.is_empty() and not ids.has(protected_unit_id):
 		errors.append("La unidad protegida no participa en la misión.")

@@ -11,6 +11,9 @@ func enemy_phase(b: BattleManager) -> void:
 		if unit.team == "enemy":
 			b.enemy_activation(unit)
 	if not b.ended:
+		for unit: TacticalUnit in b.units:
+			if unit.team == "neutral" and unit.alive() and unit.movement > 0:
+				b.move_unit(unit, NeutralAI.plan(unit, b.grid, b.units, b.mission.shelter_cells, b.turns.number))
 		b.start_allied_phase()
 
 func use(b: BattleManager, actor: TacticalUnit, action: String, target: TacticalUnit = null) -> void:
@@ -93,5 +96,14 @@ func play_mission(mission: BattleMissionData) -> void:
 func run() -> void:
 	for mission: BattleMissionData in MissionCatalog.missions():
 		play_mission(mission)
+	var content: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://data/narrative/settlement.json"))
+	for warned: bool in [false, true]:
+		for terminal: bool in [false, true]:
+			var flow: MissionFlowController = MissionFlowController.new()
+			flow.world.data.flags.villager_warned = warned
+			flow.world.data.prepared.terminal = terminal
+			flow.consolidate(MissionCatalog.default_mission(), content)
+			print("PREPARATION warned=%s terminal=%s" % [warned, terminal])
+			play_mission(flow.prepared)
 	print("MATCH TESTS: %d failures" % failures)
 	quit(0 if failures == 0 else 1)

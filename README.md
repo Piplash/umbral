@@ -1,5 +1,7 @@
 # UMBRAL — Defensa del asentamiento
 
+**Iteración narrativa:** F5 → Iniciar historia. WASD/flechas, Shift para correr y clic en NPC/objetos. Continuar historia confirma el avance, reproduce la cinemática y abre el combate 8×8 con consecuencias de decisiones. El selector táctico de escenarios ya no es visible. Consultar docs/ITERATION3.md y docs/CREATING_MISSIONS.md; los apartados históricos sobre selección de escenarios se mantienen como referencia de pruebas.
+
 Prototipo jugable de combate táctico de ciencia ficción, en español. Dos gemelos defienden a un civil frente a un soldado y un capturador. Presentación rural decadente con atlas de pixel art originales generados para el proyecto, personajes independientes, retratos y HUD ornamental. Sin plugins ni dependencias externas de ejecución.
 
 ## Abrir y jugar
@@ -7,7 +9,7 @@ Prototipo jugable de combate táctico de ciencia ficción, en español. Dos geme
 1. Usa Godot **4.2.2 o posterior de la rama 4.x**, edición estándar; no hace falta .NET.
 2. Importa `project.godot` en el gestor de proyectos.
 3. Abre el proyecto y pulsa **F5**.
-4. Elige **Defensa del asentamiento (8 × 8)** o **Escenario de prueba (10 × 10)** y pulsa **Iniciar combate**. Ambos usan el mismo controlador y las mismas reglas.
+4. Pulsa **Iniciar historia** para explorar. El combate 8×8 comienza al confirmar **Continuar historia** y avanzar la cinemática. El 10×10 es únicamente un fixture de pruebas.
 
 Resolución lógica: **960 × 540**. Ventana inicial: 1280 × 720; mínimo 960 × 540. El lienzo escala conservando la proporción. Renderizador Compatibility y filtro nearest para el arte. Cámara fija: se ve todo el tablero. No se requiere descargar arte ni instalar complementos. Para distribuir un ejecutable Windows, instala las plantillas de exportación correspondientes a tu versión de Godot y utiliza Proyecto → Exportar → Windows Desktop. Esta entrega contiene el proyecto fuente, no un ejecutable exportado.
 

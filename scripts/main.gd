@@ -34,6 +34,7 @@ var undo_button: Button
 var phase_tween: Tween
 var end_turn_button: Button
 var displayed_unit_id: String = ""
+var story_flow: MissionFlowController
 var active_mission: BattleMissionData
 var scenario_selector: OptionButton
 
@@ -174,6 +175,7 @@ func show_menu() -> void:
 	var intro: Label = text(panel, "El planeta se agota. El pueblo resiste.\nDos hermanos. Una última defensa.", 14)
 	intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	scenario_selector = OptionButton.new()
+	scenario_selector.visible = false
 	scenario_selector.add_theme_font_size_override("font_size", 14)
 	panel.add_child(scenario_selector)
 	var missions: Array[BattleMissionData] = MissionCatalog.missions()
@@ -186,11 +188,24 @@ func show_menu() -> void:
 		if mission.mission_id == active_mission.mission_id:
 			scenario_selector.select(index)
 	scenario_selector.item_selected.connect(func(index: int) -> void: active_mission = scenario_selector.get_item_metadata(index); audio.play("select"))
-	button(panel, "Iniciar combate", start_battle).grab_focus()
+	button(panel, "Iniciar historia", start_exploration).grab_focus()
 	button(panel, "Salir", func() -> void: get_tree().quit())
 	text(panel, "COMBATE TÁCTICO · CIENCIA FICCIÓN RURAL", 10).horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
+func start_exploration(content_path: String = "res://data/narrative/settlement.json") -> void:
+	clear_screen()
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	battle = null
+	screen.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	story_flow = MissionFlowController.new()
+	var session: StorySession = StorySession.new()
+	session.host = self
+	session.flow = story_flow
+	session.content = JSON.parse_string(FileAccess.get_file_as_string(content_path))
+	screen.add_child(session)
+
 func start_battle(mission: BattleMissionData = null) -> void:
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	if mission != null:
 		active_mission = mission
 	if active_mission == null:
@@ -199,6 +214,9 @@ func start_battle(mission: BattleMissionData = null) -> void:
 	if not errors.is_empty():
 		push_error("Misión inválida: " + "; ".join(errors))
 		return
+	if story_flow != null and active_mission == story_flow.prepared:
+		story_flow.world.restore(story_flow.before_battle)
+		story_flow.phase = "battle"
 	clear_screen()
 	messages.clear()
 	battle = BattleManager.new(active_mission)
@@ -298,6 +316,8 @@ func start_battle(mission: BattleMissionData = null) -> void:
 		board.set_cursor(battle.selected.cell)
 	refresh()
 	battle.check_end()
+	if not battle.mission.preparation_messages.is_empty():
+		record(" · ".join(battle.mission.preparation_messages))
 
 func record(message: String) -> void:
 	messages.append(message)
@@ -311,7 +331,7 @@ func refresh() -> void:
 		return
 	highlighted_action = battle.mode
 	end_turn_button.disabled = input_locked()
-	var phase_label: String = "FASE ALIADA" if battle.turns.phase == "ally" else "FASE ENEMIGA" if battle.turns.phase == "enemy" else "FIN"
+	var phase_label: String = "FASE ALIADA" if battle.turns.phase == "ally" else "FASE ENEMIGA" if battle.turns.phase == "enemy" else "FASE NEUTRAL" if battle.turns.phase == "neutral" else "FIN"
 	status.text = "TURNO %02d · %s" % [battle.turns.number, phase_label]
 	if battle.capture.enabled:
 		status.text += "     |     CAPTURA %d/%d" % [battle.capture.progress, battle.capture.limit]
@@ -647,6 +667,15 @@ func end_turn() -> void:
 		await get_tree().process_frame
 		if token != serial:
 			return
+	for neutral: TacticalUnit in battle.units:
+		if neutral.team == "neutral" and neutral.alive() and neutral.movement > 0:
+			battle.turns.phase = "neutral"
+			refresh()
+			battle.move_unit(neutral, NeutralAI.plan(neutral, battle.grid, battle.units, battle.mission.shelter_cells, battle.turns.number))
+			if board.busy:
+				await board.settled
+			if token != serial:
+				return
 	battle.start_allied_phase()
 	enemy_running = false
 	if battle.ended:
@@ -673,6 +702,8 @@ func modal(title: String) -> VBoxContainer:
 	return box
 
 func show_results(won: bool) -> void:
+	if story_flow != null and story_flow.phase == "battle":
+		story_flow.record_result(battle)
 	interaction_state = "finished"
 	audio.play("victory" if won else "defeat")
 	var box: VBoxContainer = modal(battle.mission.victory_title if won else battle.mission.defeat_title)

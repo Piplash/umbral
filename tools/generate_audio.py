@@ -9,6 +9,7 @@ OUTPUT = Path(__file__).resolve().parents[1] / 'assets' / 'audio'
 OUTPUT.mkdir(parents=True, exist_ok=True)
 RATE = 22050
 CUES = {
+    'machinery': (.8, 75, 45, .45),
     'attack': (.12, 360, 85, .28), 'impact': (.11, 130, 42, .65),
     'damage': (.14, 210, 65, .35), 'heal': (.28, 520, 1040, .015),
     'jam': (.26, 760, 170, .20), 'unit_defeat': (.25, 280, 45, .25),

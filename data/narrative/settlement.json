@@ -1,0 +1,405 @@
+{
+  "bounds": [
+    1400,
+    900
+  ],
+  "start": [
+    500,
+    480
+  ],
+  "shelters": [
+    [
+      0,
+      3
+    ]
+  ],
+  "blockers": [
+    [
+      180,
+      170,
+      180,
+      130
+    ],
+    [
+      900,
+      170,
+      190,
+      140
+    ],
+    [
+      150,
+      620,
+      160,
+      110
+    ],
+    [
+      960,
+      620,
+      170,
+      120
+    ]
+  ],
+  "props": [
+    [
+      4,
+      150,
+      110,
+      230,
+      220
+    ],
+    [
+      4,
+      900,
+      110,
+      230,
+      230
+    ],
+    [
+      5,
+      960,
+      580,
+      210,
+      180
+    ],
+    [
+      14,
+      140,
+      610,
+      150,
+      140
+    ],
+    [
+      7,
+      20,
+      20,
+      180,
+      210
+    ],
+    [
+      7,
+      1150,
+      20,
+      190,
+      210
+    ],
+    [
+      7,
+      1180,
+      700,
+      180,
+      190
+    ],
+    [
+      10,
+      610,
+      150,
+      170,
+      80
+    ]
+  ],
+  "actors": [
+    {
+      "id": "lira",
+      "name": "Lira",
+      "art": "support",
+      "position": [
+        650,
+        420
+      ],
+      "dialogue": "lira"
+    },
+    {
+      "id": "villager",
+      "name": "Aldeano preocupado",
+      "art": "civil",
+      "position": [
+        520,
+        610
+      ],
+      "dialogue": "villager"
+    },
+    {
+      "id": "neighbor",
+      "name": "Habitante",
+      "art": "civil",
+      "position": [
+        850,
+        440
+      ],
+      "dialogue": "neighbor"
+    },
+    {
+      "id": "terminal",
+      "name": "Terminal defensiva",
+      "prop": 5,
+      "position": [
+        780,
+        650
+      ],
+      "dialogue": "terminal"
+    },
+    {
+      "id": "ruins",
+      "name": "Restos del conducto",
+      "prop": 9,
+      "position": [
+        400,
+        350
+      ],
+      "dialogue": "ruins"
+    }
+  ],
+  "dialogues": {
+    "lira": {
+      "speaker": "Lira",
+      "art": "support",
+      "lines": [
+        "El generador vuelve a fallar. En la ciudad ni siquiera se enterarán.",
+        "Si nosotros no cuidamos a la gente de aquí, ¿quién lo hará?"
+      ],
+      "choices": [
+        {
+          "text": "No podemos salvar a todos. Pero empezaremos por aquí."
+        }
+      ]
+    },
+    "villager": {
+      "speaker": "Aldeano",
+      "art": "civil",
+      "lines": [
+        "Gael, se han escuchado rumores de que las tropas de la Autoridad están acercándose al asentamiento. ¿Crees que sea cierto?"
+      ],
+      "choices": [
+        {
+          "text": "Tranquilo, son solo rumores. No va a pasar nada.",
+          "effects": [
+            {
+              "bucket": "flags",
+              "key": "villager_warned",
+              "value": false
+            },
+            {
+              "bucket": "choices",
+              "key": "villager_response",
+              "value": "reassure"
+            }
+          ]
+        },
+        {
+          "text": "Si es cierto, debemos estar preparados. Refúgiate en el viejo almacén si ocurre algo. Nosotros nos haremos cargo.",
+          "effects": [
+            {
+              "bucket": "flags",
+              "key": "villager_warned",
+              "value": true
+            },
+            {
+              "bucket": "choices",
+              "key": "villager_response",
+              "value": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    "neighbor": {
+      "speaker": "Habitante",
+      "art": "civil",
+      "lines": [
+        "Las caravanas ya no regresan del norte. Dicen que la Autoridad se lleva a quienes no pueden pagar energía.",
+        "Yo solo sé que cada invierno quedan menos luces encendidas."
+      ],
+      "choices": [
+        {
+          "text": "Gracias. Tendremos cuidado."
+        }
+      ]
+    },
+    "terminal": {
+      "speaker": "Terminal defensiva",
+      "lines": [
+        "Un relé oxidado aún conserva carga. Podría alimentar una barrera junto al acceso oriental."
+      ],
+      "choices": [
+        {
+          "text": "Activar defensas.",
+          "effects": [
+            {
+              "bucket": "prepared",
+              "key": "terminal"
+            }
+          ]
+        },
+        {
+          "text": "Dejarlo como está."
+        }
+      ],
+      "examined_id": "terminal"
+    },
+    "ruins": {
+      "speaker": "Conducto",
+      "lines": [
+        "Bajo el musgo aún vibra una tubería. El pueblo vive de maquinaria que ya nadie sabe reparar."
+      ],
+      "choices": [
+        {
+          "text": "Volver.",
+          "effects": [
+            {
+              "bucket": "examined",
+              "key": "ruins"
+            }
+          ]
+        }
+      ],
+      "examined_id": "ruins"
+    }
+  },
+  "modifiers": [
+    {
+      "type": "unit_behavior",
+      "unit": "civil",
+      "behavior": "wander",
+      "movement": 2
+    },
+    {
+      "type": "unit_behavior",
+      "unit": "civil",
+      "behavior": "seek_shelter",
+      "movement": 2,
+      "conditions": [
+        {
+          "bucket": "flags",
+          "key": "villager_warned",
+          "value": true
+        }
+      ],
+      "message": "El aldeano busca refugio"
+    },
+    {
+      "type": "barrier",
+      "cell": [
+        5,
+        3
+      ],
+      "conditions": [
+        {
+          "bucket": "prepared",
+          "key": "terminal",
+          "value": true
+        }
+      ],
+      "message": "Defensas activas"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "camera",
+      "position": [
+        1050,
+        450
+      ]
+    },
+    {
+      "type": "sound",
+      "cue": "machinery"
+    },
+    {
+      "type": "show",
+      "id": "troops",
+      "actor": {
+        "name": "Autoridad",
+        "art": "soldier",
+        "position": [
+          1200,
+          450
+        ]
+      }
+    },
+    {
+      "type": "move",
+      "id": "troops",
+      "position": [
+        1000,
+        470
+      ]
+    },
+    {
+      "type": "show",
+      "id": "capture_troops",
+      "actor": {
+        "name": "Autoridad",
+        "art": "captor",
+        "position": [
+          1260,
+          500
+        ]
+      }
+    },
+    {
+      "type": "move",
+      "id": "capture_troops",
+      "position": [
+        1090,
+        520
+      ]
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Habitante",
+      "text": "¡La Autoridad! ¡Han cortado el camino!"
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Lira",
+      "text": "No vamos a dejarlos solos, Gael."
+    },
+    {
+      "type": "dialogue",
+      "speaker": "Gael",
+      "text": "Quédate a mi lado. Protejamos al pueblo."
+    },
+    {
+      "type": "effects",
+      "effects": [
+        {
+          "bucket": "events",
+          "key": "authority_attack",
+          "value": true
+        }
+      ]
+    },
+    {
+      "type": "fade"
+    },
+    {
+      "type": "battle"
+    }
+  ],
+  "title": "UMBRAL · EL ASENTAMIENTO",
+  "player_art": "hero",
+  "walk_speed": 100,
+  "ground_tile_size": 64,
+  "ground_terrain": 0,
+  "ground_paths": [
+    {
+      "rect": [
+        448,
+        0,
+        384,
+        900
+      ],
+      "tile": 2
+    },
+    {
+      "rect": [
+        0,
+        448,
+        1400,
+        128
+      ],
+      "tile": 2
+    }
+  ],
+  "battle_mission": "res://data/missions/settlement.tres"
+}

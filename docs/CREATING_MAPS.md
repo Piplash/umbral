@@ -1,5 +1,7 @@
 # Crear mapas y misiones sin copiar combate
 
+Actualmente solo el asentamiento 8×8 aparece en el flujo normal. El selector descrito abajo es una herramienta de desarrollo oculta; el 10×10 queda como fixture. Para contenido narrativo nuevo consultar CREATING_MISSIONS.md. No añadir mapas de demostración a la interfaz normal.
+
 Leer `AGENTS.md` y `ARCHITECTURE.md`. Los pasos usan las clases Resource disponibles en el inspector de Godot 4.2.2. Todos los archivos y referencias del proyecto usan `res://`; no requieren rutas del equipo del autor.
 
 ## 1. Crear el recurso de mapa

@@ -68,3 +68,13 @@ No modificar estadísticas, habilidades, reglas ni contenido narrativo salvo pet
 7. Informar los archivos modificados, las pruebas realmente ejecutadas y las limitaciones pendientes.
 
 Estas son normas generales y permanentes, no instrucciones limitadas a una iteración concreta.
+
+## Exploración y narrativa: reglas permanentes
+
+- Diseñar toda mecánica como reutilizable y configurable desde su primera implementación: exploración, movimiento, interacciones, diálogo, decisiones, combate, IA, cinemáticas, objetivos, misiones, inventario, progresión y persistencia. No implementar sistemas futuros hasta necesitarlos.
+- Antes de incorporar funcionalidades: inspeccionar, identificar reutilización, retirar acoplamientos que impidan el cambio, implementar componentes generales, verificar regresiones y documentar. Evitar duplicación y sobreingeniería.
+- Separar lógica, configuración, contenido narrativo, arte, interfaz y persistencia. Ningún controlador general debe codificar consecuencias exclusivas de un NPC o misión.
+- La historia principal es dirigida, con ramificaciones y convergencias. Conservar decisiones al converger. Distinguir consecuencias tácticas, persistentes y estructurales; implementar solo las necesarias para la misión actual. No crear todavía reclutamiento, reputación, relaciones ni rutas completas.
+- Definir elecciones, condiciones y efectos mediante datos. Un evaluador central comprueba condiciones y un resolver aplica efectos; la UI no decide consecuencias. No ejecutar expresiones arbitrarias de los datos.
+- Priorizar profundidad narrativa. El único escenario táctico visible actualmente es el asentamiento original 8×8. Conservar dimensiones dinámicas y el 10×10 como fixture automatizado, sin selector jugable ni decoración adicional. No crear mapas de demostración sin necesidad de misión.
+- Preservar Godot 4.x/GDScript, recursos, HUD, estadísticas y habilidades; no modificar mecánicas ajenas, añadir dependencias innecesarias ni inventar resultados de pruebas. Documentar contratos entre sistemas.

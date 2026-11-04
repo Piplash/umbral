@@ -9,7 +9,7 @@ extends Resource
 @export var defense: int = 0
 @export var movement: int = 0
 @export var abilities: Array[String] = []
-@export_enum("player", "aggressive", "capture", "passive") var behavior: String = "player"
+@export_enum("player", "aggressive", "capture", "passive", "wander", "seek_shelter") var behavior: String = "player"
 @export var art_key: String = ""
 @export var sprite: Texture2D
 @export var portrait: Texture2D
