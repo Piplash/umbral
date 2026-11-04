@@ -13,8 +13,20 @@ func _draw() -> void:
 				if Rect2(box[0], box[1], box[2], box[3]).has_point(Vector2(x + 0.5, y + 0.5) * tile):
 					index = int(path.tile)
 			draw_texture_rect(ArtLibrary.prop(index), Rect2(x * tile, y * tile, tile, tile), false)
-	for prop: Array in content.props:
-		draw_texture_rect(ArtLibrary.prop(int(prop[0])), Rect2(prop[1], prop[2], prop[3], prop[4]), false)
+	for surface: Dictionary in content.get("ground_polygons", []):
+		var polygon: PackedVector2Array = []
+		for point: Array in surface.points:
+			polygon.append(Vector2(point[0], point[1]))
+		var index: int = int(surface.get("tile", 3))
+		for x: int in range(ceili(float(content.bounds[0]) / tile)):
+			for y: int in range(ceili(float(content.bounds[1]) / tile)):
+				var origin: Vector2 = Vector2(x * tile, y * tile)
+				var square: PackedVector2Array = [origin, origin + Vector2(tile, 0), origin + Vector2(tile, tile), origin + Vector2(0, tile)]
+				for clipped: PackedVector2Array in Geometry2D.intersect_polygons(square, polygon):
+					var uv: PackedVector2Array = []
+					for vertex: Vector2 in clipped:
+						uv.append((Vector2(index % 4, floori(index / 4.0)) + (vertex - origin) / tile) / 4.0)
+					draw_polygon(clipped, PackedColorArray([Color.WHITE]), uv, ArtLibrary.environment)
 	for decoration: Dictionary in content.get("decorations", []):
 		if decoration.type == "cable":
 			var points: PackedVector2Array = []

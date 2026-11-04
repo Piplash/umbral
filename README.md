@@ -1,5 +1,7 @@
 # UMBRAL — Defensa del asentamiento
 
+**Iteración 5 — El último refugio:** plaza empedrada, viviendas y tecnología reutilizada, luz localizada, HUD discreto e introducción con tres ilustraciones originales, pan/zoom/fundidos y salto. Ver docs/ITERATION_5_PROGRESS.md y docs/VISUAL_REVIEW_ITERATION_5.md. F5 → Iniciar historia; ? abre controles de exploración.
+
 **Iteración 4:** prólogo saltable de 34 segundos, asentamiento compacto, habitantes/animales con rutinas y vistas direccionales provisionales. Ver docs/NPC_ROUTINES.md y docs/ITERATION_4_PROGRESS.md para configuración, pruebas y límites.
 
 **Iteración narrativa:** F5 → Iniciar historia. WASD/flechas, Shift para correr y clic en NPC/objetos. Continuar historia confirma el avance, reproduce la cinemática y abre el combate 8×8 con consecuencias de decisiones. El selector táctico de escenarios ya no es visible. Consultar docs/ITERATION3.md y docs/CREATING_MISSIONS.md; los apartados históricos sobre selección de escenarios se mantienen como referencia de pruebas.

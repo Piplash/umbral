@@ -30,22 +30,28 @@ func _ready() -> void:
 	exploration.setup(content)
 	exploration.world = flow.world
 	exploration.dialogue_requested.connect(open_dialogue)
-	var header: Label = Label.new()
-	header.text = content.get("title", "UMBRAL") + "\nWASD / flechas · Shift correr · Clic para conversar o examinar"
-	header.position = Vector2(20, 16)
-	header.mouse_filter = Control.MOUSE_FILTER_STOP
+	var header: OrnamentPanel = OrnamentPanel.new()
+	header.position = Vector2(18, 16)
+	header.size = Vector2(230, 38)
 	ui.add_child(header)
-	var advance: Button = Button.new()
-	advance.text = "Continuar historia"
-	advance.position = Vector2(760, 20)
-	advance.pressed.connect(confirm_continue)
-	ui.add_child(advance)
+	var place: Label = host.text(header, content.get("hud_title", content.get("title", "UMBRAL")), 12)
+	place.add_theme_font_override("font", host.serif)
+	place.modulate = Color("dbc38e")
+	var advance: Button = host.button(ui, "Continuar historia  ›", confirm_continue)
+	advance.position = Vector2(748, 16)
+	advance.add_theme_font_size_override("font_size", 13)
+	advance.custom_minimum_size = Vector2(155, 34)
+	var help: Button = host.button(ui, "?", exploration_help)
+	help.position = Vector2(912, 16)
+	help.custom_minimum_size = Vector2(30, 34)
+	help.tooltip_text = "Controles de exploración"
 	if play_intro and not content.get("intro", []).is_empty():
 		intro_active = true
 		flow.phase = "intro"
 		exploration.player.locked = true
 		header.hide()
 		advance.hide()
+		help.hide()
 		await play_actions(content.intro)
 		var reveal: ColorRect = ColorRect.new()
 		reveal.color = Color.BLACK
@@ -60,6 +66,7 @@ func _ready() -> void:
 		exploration.player.locked = false
 		header.show()
 		advance.show()
+		help.show()
 
 func panel(title: String) -> VBoxContainer:
 	if is_instance_valid(dialog):
@@ -219,45 +226,100 @@ func play_actions(actions: Array) -> void:
 func show_intro_card(action: Dictionary) -> void:
 	card_generation += 1
 	var generation: int = card_generation
+	var duration: float = float(action.get("seconds", 8))
+	var is_title: bool = bool(action.get("title", false))
 	card = Control.new()
 	card.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	card.clip_contents = true
 	ui.add_child(card)
-	card.modulate.a = 0
-	var entrance: Tween = card.create_tween()
-	entrance.tween_property(card, "modulate:a", 1.0, 0.5)
 	var background: ColorRect = ColorRect.new()
-	background.color = Color("070d12")
+	background.color = Color("070a10")
 	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	card.add_child(background)
-	if action.has("prop"):
-		var texture: TextureRect = TextureRect.new()
-		texture.texture = ArtLibrary.prop(int(action.prop))
-		texture.position = Vector2(150, 35)
-		texture.size = Vector2(650, 400)
-		texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		texture.modulate = Color(0.5, 0.6, 0.65, 0.35)
-		card.add_child(texture)
-		var pan: Tween = texture.create_tween()
-		pan.tween_property(texture, "position:x", 185.0, float(action.get("seconds", 8)))
+	if action.has("image"):
+		var image: TextureRect = TextureRect.new()
+		image.name = "Illustration"
+		image.texture = load(action.image)
+		image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		image.size = Vector2(960, 540)
+		image.pivot_offset = image.size * 0.5
+		image.scale = Vector2.ONE * float(action.get("zoom_from", 1.02))
+		card.add_child(image)
+		var offset: Array = action.get("pan", [0, 0])
+		var motion: Tween = image.create_tween().set_parallel(true)
+		motion.tween_property(image, "scale", Vector2.ONE * float(action.get("zoom_to", 1.06)), duration).set_trans(Tween.TRANS_SINE)
+		motion.tween_property(image, "position", Vector2(offset[0], offset[1]), duration).set_trans(Tween.TRANS_SINE)
+		var gradient: Gradient = Gradient.new()
+		gradient.set_color(0, Color(0.015, 0.02, 0.03, 0))
+		gradient.set_color(1, Color(0.015, 0.02, 0.03, 0.98))
+		var texture: GradientTexture2D = GradientTexture2D.new()
+		texture.gradient = gradient
+		texture.fill_from = Vector2(0.5, 0)
+		texture.fill_to = Vector2(0.5, 1)
+		var veil: TextureRect = TextureRect.new()
+		veil.texture = texture
+		veil.position = Vector2(0, 320)
+		veil.size = Vector2(960, 220)
+		card.add_child(veil)
+	for y: int in [0, 520]:
+		var bar: ColorRect = ColorRect.new()
+		bar.position = Vector2(0, y)
+		bar.size = Vector2(960, 20)
+		bar.color = Color("070a10")
+		card.add_child(bar)
+	var caption: Label = host.text(card, "U M B R A L  /  " + ("PRÓLOGO" if is_title else "%02d" % generation), 11)
+	caption.position = Vector2(46, 358 if not is_title else 150)
+	caption.modulate = Color("c4a46a")
+	if is_title:
+		caption.position.x = 400
 	var label: RichTextLabel = RichTextLabel.new()
-	label.position = Vector2(140, 190)
-	label.size = Vector2(680, 200)
-	label.add_theme_font_size_override("normal_font_size", 25)
-	label.text = action.text
-	label.visible_ratio = 0
+	label.name = "Narration"
+	label.position = Vector2(46, 382) if not is_title else Vector2(120, 202)
+	label.size = Vector2(780, 104) if not is_title else Vector2(720, 170)
+	label.add_theme_font_size_override("normal_font_size", 20 if not is_title else 32)
+	label.add_theme_font_override("normal_font", host.serif)
+	label.add_theme_color_override("default_color", Color("eee1c7"))
+	label.bbcode_enabled = is_title
+	label.text = action.text if not is_title else "[center]" + action.text + "[/center]"
+	label.visible_ratio = 0 if not is_title else 1
 	label.scroll_active = false
 	card.add_child(label)
-	var typing: Tween = label.create_tween()
-	typing.tween_property(label, "visible_ratio", 1.0, minf(4.0, label.text.length() * 0.035))
-	var next: Button = host.button(card, "Continuar", func() -> void: finish_card(generation))
-	next.position = Vector2(570, 450)
-	var skip: Button = host.button(card, "Saltar introducción", skip_intro)
-	skip.position = Vector2(710, 450)
+	if not is_title:
+		var typing: Tween = label.create_tween()
+		typing.tween_property(label, "visible_ratio", 1.0, minf(4.0, label.text.length() * 0.035))
+	var next: Button = host.button(card, "Continuar  ›", func() -> void: finish_card(generation))
+	next.position = Vector2(730, 482)
+	next.add_theme_font_size_override("font_size", 13)
+	var skip: Button = host.button(card, "Saltar", skip_intro)
+	skip.position = Vector2(852, 482)
+	skip.add_theme_font_size_override("font_size", 13)
+	skip.tooltip_text = "Saltar introducción"
+	if action.has("audio"):
+		host.audio.play(action.audio)
+	card.modulate.a = 0
+	var entrance: Tween = card.create_tween()
+	entrance.tween_property(card, "modulate:a", 1.0, minf(float(action.get("transition", 0.6)), duration * 0.2))
+	var exit_duration: float = minf(0.5, duration * 0.15)
 	card_tween = card.create_tween()
-	card_tween.tween_interval(float(action.get("seconds", 8)))
+	card_tween.tween_interval(maxf(0.001, duration - exit_duration))
+	card_tween.tween_property(card, "modulate:a", 0.0, exit_duration)
 	card_tween.tween_callback(func() -> void: finish_card(generation))
 	await card_finished
+
+func exploration_help() -> void:
+	if exploration.player.locked or flow.phase != "exploration":
+		return
+	exploration.player.locked = true
+	exploration.player.route.clear()
+	exploration.release_interaction()
+	var box: VBoxContainer = panel("Explorar el asentamiento")
+	host.text(box, "WASD / flechas · Caminar     Shift · Correr", 16)
+	host.text(box, "Clic sobre un habitante u objeto · Acercarse y conversar / examinar", 15)
+	host.text(box, "Continuar historia · Confirmar el avance al siguiente acontecimiento", 15)
+	host.button(box, "Volver al asentamiento", func() -> void:
+		dialog.queue_free()
+		exploration.player.locked = false)
 
 func finish_card(generation: int) -> void:
 	if generation != card_generation or not is_instance_valid(card) or card.is_queued_for_deletion():

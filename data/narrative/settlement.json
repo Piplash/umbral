@@ -49,6 +49,48 @@
       650,
       90,
       25
+    ],
+    [
+      845,
+      425,
+      130,
+      75
+    ],
+    [
+      445,
+      280,
+      140,
+      42
+    ],
+    [
+      610,
+      175,
+      130,
+      45
+    ],
+    [
+      125,
+      440,
+      125,
+      45
+    ],
+    [
+      228,
+      411,
+      10,
+      14
+    ],
+    [
+      365,
+      411,
+      10,
+      14
+    ],
+    [
+      75,
+      310,
+      25,
+      20
     ]
   ],
   "props": [
@@ -61,17 +103,17 @@
     ],
     [
       4,
-      830,
-      85,
-      200,
-      210
+      120,
+      550,
+      210,
+      205
     ],
     [
       5,
-      875,
+      880,
       570,
-      180,
-      155
+      170,
+      150
     ],
     [
       14,
@@ -82,24 +124,24 @@
     ],
     [
       7,
-      15,
       5,
-      160,
-      185
+      30,
+      170,
+      180
     ],
     [
       7,
-      930,
+      955,
       20,
       150,
-      175
+      180
     ],
     [
       7,
-      930,
-      690,
-      160,
-      180
+      950,
+      695,
+      150,
+      160
     ],
     [
       10,
@@ -116,32 +158,32 @@
       55
     ],
     [
-      13,
-      810,
-      240,
-      38,
-      42
+      10,
+      20,
+      600,
+      130,
+      55
     ],
     [
-      13,
-      850,
-      250,
-      32,
-      38
-    ],
-    [
-      8,
-      740,
-      295,
-      40,
-      45
+      10,
+      830,
+      280,
+      140,
+      55
     ],
     [
       8,
-      780,
-      300,
+      390,
+      265,
       35,
       40
+    ],
+    [
+      13,
+      365,
+      280,
+      32,
+      38
     ],
     [
       8,
@@ -149,6 +191,13 @@
       540,
       40,
       45
+    ],
+    [
+      8,
+      1010,
+      390,
+      36,
+      40
     ],
     [
       11,
@@ -159,45 +208,87 @@
     ],
     [
       11,
-      110,
-      420,
+      80,
+      380,
       75,
       55
     ],
     [
       11,
-      680,
-      690,
+      330,
+      670,
       80,
       60
     ],
     [
+      11,
+      720,
+      690,
+      75,
+      55
+    ],
+    [
+      11,
+      1010,
+      520,
+      80,
+      65
+    ],
+    [
       15,
-      1000,
-      365,
-      40,
-      110
+      420,
+      700,
+      35,
+      100
+    ],
+    [
+      15,
+      640,
+      700,
+      35,
+      100
     ],
     [
       10,
-      965,
-      500,
+      440,
+      740,
+      80,
+      40
+    ],
+    [
+      11,
+      320,
       100,
+      70,
+      45
+    ],
+    [
+      11,
+      750,
+      230,
+      55,
       50
     ],
     [
-      12,
-      550,
-      345,
-      35,
-      48
+      7,
+      5,
+      190,
+      155,
+      175
     ],
     [
-      4,
-      120,
-      550,
-      210,
-      205
+      11,
+      375,
+      310,
+      45,
+      30
+    ],
+    [
+      11,
+      740,
+      655,
+      45,
+      35
     ]
   ],
   "actors": [
@@ -250,15 +341,15 @@
       "name": "Habitante",
       "art": "civil",
       "position": [
-        850,
-        440
+        350,
+        390
       ],
       "dialogue": "neighbor",
       "visual_row": 4,
       "routine": {
-        "type": "socialize",
-        "partner": "woman_b"
-      }
+        "type": "idle"
+      },
+      "tint": "d7c8ae"
     },
     {
       "id": "terminal",
@@ -268,7 +359,24 @@
         780,
         650
       ],
-      "dialogue": "terminal"
+      "dialogue": "terminal",
+      "visual": {
+        "sheet": "res://assets/art/refuge_props.png",
+        "region": [
+          512,
+          0,
+          512,
+          512
+        ]
+      },
+      "visual_size": [
+        88,
+        104
+      ],
+      "collision_size": [
+        56,
+        28
+      ]
     },
     {
       "id": "ruins",
@@ -285,15 +393,15 @@
       "name": "Elena",
       "visual_row": 3,
       "position": [
-        460,
-        300
+        575,
+        350
       ],
       "routine": {
         "type": "patrol",
         "points": [
           [
-            460,
-            300
+            575,
+            350
           ],
           [
             730,
@@ -304,21 +412,6 @@
       },
       "speed": 32,
       "dialogue": "woman_a"
-    },
-    {
-      "id": "woman_b",
-      "name": "Mara",
-      "visual_row": 3,
-      "position": [
-        810,
-        420
-      ],
-      "routine": {
-        "type": "socialize",
-        "partner": "neighbor"
-      },
-      "speed": 32,
-      "dialogue": "woman_b"
     },
     {
       "id": "worker_a",
@@ -333,46 +426,8 @@
         "pause": 3
       },
       "speed": 32,
-      "dialogue": "worker_a"
-    },
-    {
-      "id": "worker_b",
-      "name": "Transportista",
-      "visual_row": 4,
-      "position": [
-        590,
-        340
-      ],
-      "routine": {
-        "type": "patrol",
-        "points": [
-          [
-            590,
-            340
-          ],
-          [
-            750,
-            530
-          ]
-        ],
-        "pause": 3
-      },
-      "speed": 32,
-      "dialogue": "worker_b"
-    },
-    {
-      "id": "elder",
-      "name": "Vecino mayor",
-      "visual_row": 2,
-      "position": [
-        395,
-        625
-      ],
-      "routine": {
-        "type": "idle"
-      },
-      "speed": 32,
-      "dialogue": "elder"
+      "dialogue": "worker_a",
+      "tint": "b3bfc4"
     },
     {
       "id": "child",
@@ -420,38 +475,18 @@
       "name": "Gallina",
       "visual_row": 7,
       "position": [
-        160,
-        450
+        210,
+        525
       ],
       "routine": {
         "type": "wander",
         "area": [
-          135,
-          425,
-          100,
-          65
+          160,
+          500,
+          105,
+          50
         ],
         "pause": 1.5
-      },
-      "speed": 28
-    },
-    {
-      "id": "hen_b",
-      "name": "Gallina",
-      "visual_row": 7,
-      "position": [
-        220,
-        450
-      ],
-      "routine": {
-        "type": "wander",
-        "area": [
-          135,
-          425,
-          100,
-          65
-        ],
-        "pause": 2
       },
       "speed": 28
     }
@@ -833,70 +868,95 @@
   "walk_speed": 100,
   "ground_tile_size": 64,
   "ground_terrain": 0,
-  "ground_paths": [
-    {
-      "rect": [
-        448,
-        0,
-        256,
-        780
-      ],
-      "tile": 2
-    },
-    {
-      "rect": [
-        0,
-        448,
-        1080,
-        96
-      ],
-      "tile": 2
-    }
-  ],
+  "ground_paths": [],
   "battle_mission": "res://data/missions/settlement.tres",
   "decorations": [
     {
-      "type": "garden",
-      "rect": [
-        110,
-        370,
-        160,
-        95
-      ]
-    },
-    {
-      "type": "laundry",
-      "rect": [
-        240,
-        345,
-        150,
-        65
+      "type": "cable",
+      "points": [
+        [
+          295,
+          310
+        ],
+        [
+          385,
+          338
+        ],
+        [
+          490,
+          320
+        ],
+        [
+          635,
+          325
+        ],
+        [
+          870,
+          495
+        ]
       ]
     },
     {
       "type": "cable",
       "points": [
         [
-          790,
+          870,
+          495
+        ],
+        [
+          800,
+          548
+        ],
+        [
+          780,
           650
         ],
         [
-          850,
-          605
-        ],
-        [
-          920,
-          640
+          925,
+          680
         ]
       ]
     },
     {
-      "type": "bench",
-      "rect": [
-        370,
-        650,
-        90,
-        25
+      "type": "cable",
+      "points": [
+        [
+          870,
+          495
+        ],
+        [
+          975,
+          470
+        ],
+        [
+          990,
+          300
+        ],
+        [
+          900,
+          265
+        ]
+      ]
+    },
+    {
+      "type": "cable",
+      "points": [
+        [
+          310,
+          670
+        ],
+        [
+          410,
+          690
+        ],
+        [
+          650,
+          775
+        ],
+        [
+          780,
+          650
+        ]
       ]
     }
   ],
@@ -905,24 +965,495 @@
       "type": "intro_card",
       "text": "Durante generaciones, las grandes ciudades sobrevivieron gracias a una energía cuyo origen pocos se atrevían a cuestionar.",
       "seconds": 9,
-      "prop": 5
+      "image": "res://assets/art/cinematics/city.png",
+      "zoom_from": 1.02,
+      "zoom_to": 1.07,
+      "pan": [
+        -14,
+        4
+      ],
+      "transition": 0.7,
+      "audio": "machinery"
     },
     {
       "type": "intro_card",
       "text": "Lejos de sus muros, los asentamientos aprendieron a sobrevivir con lo poco que quedaba.",
       "seconds": 9,
-      "prop": 4
+      "image": "res://assets/art/cinematics/refuge.png",
+      "zoom_from": 1.02,
+      "zoom_to": 1.07,
+      "pan": [
+        -14,
+        4
+      ],
+      "transition": 0.7
     },
     {
       "type": "intro_card",
       "text": "Para Gael y Lira, aquel día comenzó como cualquier otro.",
       "seconds": 8,
-      "prop": 7
+      "image": "res://assets/art/cinematics/twins.png",
+      "zoom_from": 1.02,
+      "zoom_to": 1.07,
+      "pan": [
+        -14,
+        4
+      ],
+      "transition": 0.7
     },
     {
       "type": "intro_card",
       "text": "PRÓLOGO\n\nANTES DEL SILENCIO",
-      "seconds": 8
+      "seconds": 8,
+      "title": true,
+      "transition": 0.8
     }
-  ]
+  ],
+  "reserve_actors": [
+    {
+      "id": "woman_b",
+      "name": "Mara",
+      "visual_row": 3,
+      "position": [
+        810,
+        420
+      ],
+      "routine": {
+        "type": "socialize",
+        "partner": "neighbor"
+      },
+      "speed": 32,
+      "dialogue": "woman_b"
+    },
+    {
+      "id": "worker_b",
+      "name": "Transportista",
+      "visual_row": 4,
+      "position": [
+        590,
+        340
+      ],
+      "routine": {
+        "type": "patrol",
+        "points": [
+          [
+            590,
+            340
+          ],
+          [
+            750,
+            530
+          ]
+        ],
+        "pause": 3
+      },
+      "speed": 32,
+      "dialogue": "worker_b"
+    },
+    {
+      "id": "elder",
+      "name": "Vecino mayor",
+      "visual_row": 2,
+      "position": [
+        395,
+        625
+      ],
+      "routine": {
+        "type": "idle"
+      },
+      "speed": 32,
+      "dialogue": "elder"
+    },
+    {
+      "id": "hen_b",
+      "name": "Gallina",
+      "visual_row": 7,
+      "position": [
+        220,
+        450
+      ],
+      "routine": {
+        "type": "wander",
+        "area": [
+          135,
+          425,
+          100,
+          65
+        ],
+        "pause": 2
+      },
+      "speed": 28
+    }
+  ],
+  "camera_zoom": 0.9,
+  "camera_offset": [
+    0,
+    -60
+  ],
+  "visual_props": [
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "rect": [
+        825,
+        330,
+        180,
+        190
+      ],
+      "sort_y": 505
+    },
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "rect": [
+        420,
+        175,
+        195,
+        175
+      ],
+      "sort_y": 330
+    },
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "rect": [
+        780,
+        90,
+        240,
+        230
+      ],
+      "sort_y": 285
+    },
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "rect": [
+        590,
+        100,
+        180,
+        130
+      ],
+      "sort_y": 220
+    },
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "rect": [
+        395,
+        530,
+        70,
+        160
+      ],
+      "sort_y": 680
+    },
+    {
+      "sheet": "res://assets/art/refuge_props.png",
+      "region": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "rect": [
+        625,
+        625,
+        70,
+        160
+      ],
+      "sort_y": 775
+    },
+    {
+      "sheet": "res://assets/art/refuge_domestic.png",
+      "region": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "rect": [
+        220,
+        335,
+        170,
+        100
+      ],
+      "sort_y": 420
+    },
+    {
+      "sheet": "res://assets/art/refuge_domestic.png",
+      "region": [
+        724,
+        0,
+        724,
+        724
+      ],
+      "rect": [
+        110,
+        390,
+        155,
+        105
+      ],
+      "sort_y": 485
+    },
+    {
+      "sheet": "res://assets/art/refuge_domestic.png",
+      "region": [
+        1448,
+        0,
+        724,
+        724
+      ],
+      "rect": [
+        360,
+        615,
+        115,
+        76
+      ],
+      "sort_y": 668
+    }
+  ],
+  "atmosphere": {
+    "ambient": "bec4d8",
+    "lights": [
+      {
+        "position": [
+          290,
+          265
+        ],
+        "radius": 100,
+        "energy": 0.65
+      },
+      {
+        "position": [
+          240,
+          675
+        ],
+        "radius": 105,
+        "energy": 0.7150000000000001
+      },
+      {
+        "position": [
+          870,
+          255
+        ],
+        "radius": 95,
+        "energy": 0.5850000000000001
+      },
+      {
+        "position": [
+          550,
+          290
+        ],
+        "radius": 70,
+        "energy": 0.5850000000000001
+      },
+      {
+        "position": [
+          435,
+          580
+        ],
+        "radius": 100,
+        "energy": 0.78
+      },
+      {
+        "position": [
+          660,
+          675
+        ],
+        "radius": 105,
+        "energy": 0.78
+      },
+      {
+        "position": [
+          910,
+          475
+        ],
+        "radius": 90,
+        "energy": 0.52
+      },
+      {
+        "position": [
+          780,
+          605
+        ],
+        "radius": 75,
+        "energy": 0.52,
+        "color": "79cfda"
+      },
+      {
+        "position": [
+          945,
+          635
+        ],
+        "radius": 95,
+        "energy": 0.5850000000000001
+      }
+    ],
+    "steam": [
+      {
+        "position": [
+          900,
+          585
+        ]
+      },
+      {
+        "position": [
+          870,
+          155
+        ]
+      }
+    ]
+  },
+  "ground_polygons": [
+    {
+      "tile": 3,
+      "points": [
+        [
+          388,
+          302
+        ],
+        [
+          480,
+          286
+        ],
+        [
+          570,
+          308
+        ],
+        [
+          657,
+          298
+        ],
+        [
+          728,
+          315
+        ],
+        [
+          754,
+          390
+        ],
+        [
+          816,
+          424
+        ],
+        [
+          890,
+          432
+        ],
+        [
+          957,
+          414
+        ],
+        [
+          1080,
+          426
+        ],
+        [
+          1080,
+          535
+        ],
+        [
+          971,
+          546
+        ],
+        [
+          899,
+          530
+        ],
+        [
+          821,
+          550
+        ],
+        [
+          808,
+          610
+        ],
+        [
+          786,
+          675
+        ],
+        [
+          701,
+          682
+        ],
+        [
+          658,
+          716
+        ],
+        [
+          636,
+          780
+        ],
+        [
+          456,
+          780
+        ],
+        [
+          447,
+          694
+        ],
+        [
+          392,
+          655
+        ],
+        [
+          382,
+          596
+        ],
+        [
+          346,
+          556
+        ],
+        [
+          268,
+          544
+        ],
+        [
+          256,
+          483
+        ],
+        [
+          273,
+          429
+        ],
+        [
+          257,
+          358
+        ],
+        [
+          307,
+          337
+        ],
+        [
+          366,
+          344
+        ]
+      ]
+    }
+  ],
+  "hud_title": "UMBRAL · EL ÚLTIMO REFUGIO"
 }

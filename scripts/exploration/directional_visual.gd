@@ -25,7 +25,7 @@ func advance(velocity: Vector2, running: bool, interacting: bool, delta: float) 
 	if velocity.length() > 1:
 		face(velocity)
 		state = "run" if running else "walk"
-		phase += delta * (12 if running else 7)
+		phase += delta * velocity.length() * (0.075 if running else 0.07)
 	else:
 		state = "interact" if interacting else "idle"
 		if interacting:
@@ -46,6 +46,8 @@ func _draw() -> void:
 	var source: Vector2 = Vector2(COLUMNS[direction] * cell.x, band.x)
 	var height: float = cell.y / cell.x * 60.0
 	var walking: bool = state in ["walk", "run"]
+	draw_set_transform(Vector2(0, 3), 0, Vector2(1, 0.28) * scale_factor)
+	draw_circle(Vector2.ZERO, 18, Color(0, 0, 0, 0.28))
 	var swing: float = sin(phase * TAU * 0.5) * (2.5 if state == "run" else 1.8) if walking else 0.0
 	var bob: float = absf(swing) * -0.35
 	draw_set_transform(Vector2.ZERO, 0, Vector2.ONE * scale_factor)

@@ -37,6 +37,19 @@ func setup(data: Dictionary) -> void:
 	scenery.content = content
 	scenery.z_index = -2
 	add_child(scenery)
+	for prop: Array in data.props:
+		var node: ExplorationProp = ExplorationProp.new()
+		node.configure(ArtLibrary.prop(int(prop[0])), Rect2(prop[1], prop[2], prop[3], prop[4]))
+		add_child(node)
+	for prop: Dictionary in data.get("visual_props", []):
+		var rect: Array = prop.rect
+		var node: ExplorationProp = ExplorationProp.new()
+		node.configure(ExplorationProp.texture_for(prop), Rect2(rect[0], rect[1], rect[2], rect[3]), float(prop.get("sort_y", -1)))
+		add_child(node)
+	var atmosphere: ExplorationAtmosphere = ExplorationAtmosphere.new()
+	atmosphere.content = data.get("atmosphere", {})
+	atmosphere.z_index = 20
+	add_child(atmosphere)
 	for box: Array in data.blockers:
 		var rect: Rect2 = Rect2(box[0], box[1], box[2], box[3])
 		blockers.append(rect)
@@ -44,13 +57,16 @@ func setup(data: Dictionary) -> void:
 	for actor: Dictionary in data.actors:
 		actors[actor.id] = actor.duplicate(true)
 		var point: Vector2 = Vector2(actor.position[0], actor.position[1])
-		var rect: Rect2 = Rect2(point - Vector2(12, 12), Vector2(24, 24))
+		var body_size: Array = actor.get("collision_size", [24, 24])
+		var size: Vector2 = Vector2(body_size[0], body_size[1])
+		var rect: Rect2 = Rect2(point - size * 0.5, size)
 		if actor.has("art") or actor.has("visual_row"):
 			var npc: AmbientActor = AmbientActor.new()
 			npc.actor_id = actor.id
 			npc.art_key = actor.get("art", "civil")
 			npc.visual_row = int(actor.get("visual_row", {"support": 1, "civil": 2}.get(npc.art_key, 0)))
 			npc.visual_scale = float(actor.get("visual_scale", 1.0))
+			npc.modulate = Color(actor.get("tint", "ffffff"))
 			npc.speed = float(actor.get("speed", 42))
 			npc.position = point
 			npc.routine = actor.get("routine", {"type": "idle"})
@@ -72,7 +88,8 @@ func setup(data: Dictionary) -> void:
 	player.arrived.connect(on_arrived)
 	player.manual_navigation_cancelled.connect(release_interaction)
 	camera = Camera2D.new()
-	camera.position = player.position
+	camera.zoom = Vector2.ONE * float(data.get("camera_zoom", 1.0))
+	camera.position = camera_focus()
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = int(bounds.x)
@@ -82,6 +99,10 @@ func setup(data: Dictionary) -> void:
 	routines.exploration = self
 	add_child(routines)
 	queue_redraw()
+
+func camera_focus() -> Vector2:
+	var offset: Array = content.get("camera_offset", [0, 0])
+	return player.position + Vector2(offset[0], offset[1])
 
 func add_collision(rect: Rect2) -> void:
 	var body: StaticBody2D = StaticBody2D.new()
@@ -135,7 +156,7 @@ func _process(_delta: float) -> void:
 	for id: String in actor_nodes:
 		actors[id].position = [actor_nodes[id].position.x, actor_nodes[id].position.y]
 	if not player.locked:
-		camera.position = player.position
+		camera.position = camera_focus()
 		if player.velocity.length() > 0 and player.route.is_empty():
 			release_interaction()
 	hover_id = interactable_at(get_global_mouse_position())
@@ -169,8 +190,9 @@ func _draw() -> void:
 			continue
 		var point: Vector2 = Vector2(actor.position[0], actor.position[1])
 		if not actor_nodes.has(id):
-			var texture: Texture2D = ArtLibrary.character(actor.art) if actor.has("art") else ArtLibrary.prop(int(actor.prop))
-			draw_texture_rect(texture, Rect2(point - Vector2(23, 54), Vector2(46, 64)), false)
+			var texture: Texture2D = ExplorationProp.texture_for(actor.visual) if actor.has("visual") else (ArtLibrary.character(actor.art) if actor.has("art") else ArtLibrary.prop(int(actor.prop)))
+			var size: Array = actor.get("visual_size", [46, 64])
+			draw_texture_rect(texture, Rect2(point - Vector2(size[0] * 0.5, size[1] - 10), Vector2(size[0], size[1])), false)
 		if id == hover_id:
 			draw_arc(point, 23, 0, TAU, 24, Color("d8bd7e"), 1)
 			draw_string(ThemeDB.fallback_font, point + Vector2(-50, -63), actor.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("eee1be"))

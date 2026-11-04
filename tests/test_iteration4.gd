@@ -53,7 +53,7 @@ func run() -> void:
 	expect(not session.intro_active and not session.exploration.player.locked and main.story_flow.phase == "exploration", "skip fades and enables exploration")
 	var world: ExplorationController = session.exploration
 	expect(world.world_bounds().size == Vector2(1080, 780), "compact existing map")
-	expect(world.actor_nodes.size() >= 12, "shared environmental actors")
+	expect(world.actor_nodes.size() == 8, "configured compact population uses shared actors")
 	var lira: AmbientActor = world.actor_nodes.lira
 	var start: Vector2 = lira.position
 	var dog_start: Vector2 = world.actor_nodes.dog.position

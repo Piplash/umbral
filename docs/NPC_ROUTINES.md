@@ -52,7 +52,7 @@ Para un animal usar visual_row 6 (perro) o 7 (gallina), speed, routine y omitir 
 
 El atlas assets/art/directional_villagers.png tiene cuatro columnas: abajo, derecha, arriba, izquierda. Filas: Gael, Lira, aldeano mayor, mujer, trabajador, niño, perro y gallina. BANDS describe las franjas reales inspeccionadas del atlas (no filas uniformes). Para otro atlas hay que adaptar la descripción de regiones; no asumir una grilla perfecta de la salida generada.
 
-DirectionalVisual.face elige eje dominante con histéresis 1,15 y mantiene el eje anterior en diagonales casi iguales. advance recibe velocidad real, carrera, interacción y delta: idle conserva orientación, walk/run acumulan fase (7/12), interact muestra actividad. La vista trasera es arte independiente; no hay inversión vertical. El controlador compartido soporta run, aunque solo Gael lo activa desde InputMap.
+DirectionalVisual.face elige eje dominante con histéresis 1,15 y mantiene el eje anterior en diagonales casi iguales. advance recibe velocidad real, carrera, interacción y delta: idle conserva orientación, walk/run acumulan fase proporcional a velocidad real (0,07/0,075 por píxel de velocidad), interact muestra actividad. La vista trasera es arte independiente; no hay inversión vertical. El controlador compartido soporta run, aunque solo Gael lo activa desde InputMap.
 
 El paso utiliza un rig provisional de torso y dos mitades inferiores con oscilación alternada. No son fotogramas de caminar dibujados a mano. Las vistas generadas están reducidas con nearest a unos 60 píxeles; animales mantienen menor altura. Revisar costuras del rig, identidad de Gael/Lira y lectura de animales en una sesión manual antes de considerar el arte definitivo. Los atlas tácticos y retratos originales no se sustituyeron.
 
@@ -71,3 +71,9 @@ BattlePreparationResolver aplica unit_behavior, barrier, unit_position y add_uni
 Ejecutar tests/test_iteration4.gd junto a test_story.gd, test_exploration_physics.gd y test_matches.gd. La prueba nueva utiliza física real para Lira, niño y perro, comprueba pausa/reanudación, destinos imposibles, límites, accesibilidad de todos los actores y salto/avance/final automático del prólogo. Las capturas de test_story_visual.gd requieren renderizador gráfico; headless no prueba composición ni calidad visual.
 
 El sistema actual no implementa horarios, multitudes, navegación de edificios arbitrarios ni animaciones multiframe finales. Las tarjetas cinematográficas reutilizan props como fondos provisionales. Esas limitaciones están registradas en ITERATION_4_PROGRESS.md.
+
+## Distribución de iteración 5
+
+La escena activa mantiene ocho NPC (seis humanos y dos animales), además de Gael. Las configuraciones de Mara/transportista/vecino mayor/segunda gallina están en reserve_actors y no se instancian; sus diálogos se conservan. Para activar una, mover su configuración a actors y revisar ocupación, rutas e identidad visual. No copiar controladores.
+
+El vecino y reparador utilizan tint configurado sobre el arquetipo compartido y actividades/ubicaciones distintas. La gallina recorre ahora [160,500,105,50], junto al huerto físico; el niño conserva su área segura anterior. Los pasos dependen de velocidad, con fase persistente y sombra de apoyo; el rig no se convirtió en spritesheet multiframe final.

@@ -25,3 +25,11 @@ El civil advertido comienza en (1,3), conserva movimiento 2 y seek_shelter hacia
 `intro` contiene cuatro acciones intro_card (9/9/8/8 segundos), previas a la exploración: presentación energética, asentamientos, Gael/Lira y PRÓLOGO / ANTES DEL SILENCIO. Cada tarjeta admite text, seconds y prop opcional; muestra texto progresivo y capas reutilizadas con pan/fundido. No son ilustraciones cinematográficas finales. Continuar cambia tarjeta; Saltar introducción sale de toda la introducción. La generación de tarjeta invalida clics antiguos. El control y las rutinas permanecen bloqueados hasta el fundido final. Reiniciar la batalla no crea otra StorySession; una nueva partida sí reproduce el prólogo.
 
 Las condiciones de acción se evalúan en play_actions, compartido con la secuencia de ataque. move puede orientar/animar actores ambientales registrados sin dejar que su rutina compita con el tween. Los actores de tropas de la secuencia conservan el arte táctico anterior. No se añadió vídeo, sistema narrativo paralelo ni persistencia en disco.
+
+## Presentación ilustrada (iteración 5)
+
+Se preservan los tres textos y el título, 34 segundos de duración configurada, así como la lógica de decisiones/ataque/preparación. Las primeras tres intro_card referencian assets/art/cinematics/city.png, refuge.png y twins.png; son ilustraciones originales de ciudad, comunidad periférica y hermanos, sin revelar el origen energético. La cuarta usa title=true y el texto existente.
+
+Campos de intro_card: image (Texture2D), seconds, text, zoom_from/zoom_to, pan [x,y], transition (entrada), audio opcional (cue existente) y title. Pan y zoom se ejecutan juntos durante la tarjeta; salida gradual y entrada fundida permiten cortes suaves. La narración progresiva se integra en el tercio inferior, con velo para legibilidad y botones Continuar/Saltar. Los finales se encadenan en play_actions; las acciones scene/battle/effects siguen disponibles en el intérprete general, sin crear lógica específica por ilustración. La música no se añadió porque no había un recurso apropiado.
+
+La ayuda de exploración no aplica efectos ni marca conversaciones. Los habitantes retirados de escena conservan configuración y diálogos en datos; no se borra contenido narrativo. La terminal conserva sus choices/effects y la misma preparación de batalla pese a cambiar su representación.

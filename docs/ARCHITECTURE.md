@@ -135,3 +135,15 @@ AmbientRoutines registra los actores una vez, coordina pausas, puntos, áreas y 
 StorySession interpreta tanto `intro` como `sequence` mediante `play_actions`. Las acciones admiten condiciones del evaluador existente. `intro_card` añade texto progresivo, fondo de atlas con desplazamiento, avance protegido frente a doble clic y salto global. Cuatro tarjetas duran 34 segundos por configuración, más un fundido final de 0,6 segundos. La exploración está instanciada y bloqueada bajo las tarjetas; se libera al acabar. Solo una nueva StorySession reproduce la introducción; reintentar combate conserva el flujo actual.
 
 BattlePreparationResolver añade `unit_position` y `add_unit`, además de los modificadores anteriores. Las diferencias de civil y el explorador se configuran en settlement.json, sin duplicar la misión. EnemyAI comparte rutas y ataques para `flanker`: pondera longitud de ruta, defensa y PV del objetivo, favoreciendo aliados vulnerables. Las demás IA conservan su valoración anterior. Ver NPC_ROUTINES.md y ITERATION_4_PROGRESS.md para configuración, arte y evidencia.
+
+## Iteración 5: presentación individual y cinemática ilustrada
+
+Se conserva la arquitectura táctica y narrativa anterior. ExplorationScenery se limita a suelo/decoración: ground_polygons añade superficies con recorte por tile, sin reglas físicas. ExplorationProp crea elementos visuales individuales con profundidad y textura compartida; conserva props antiguos y admite visual_props con regiones de atlas. ExplorationController conserva colisiones e interacciones como responsabilidades distintas. El tamaño collision_size opcional del objeto está separado de visual_size.
+
+ExplorationAtmosphere configura luz ambiental, puntos cálidos/fríos y vapor desde datos. CanvasModulate no afecta al CanvasLayer de StorySession. Al liberar el mundo se liberan luces/atmósfera; no hay cambios en BoardView, HUD táctico ni estadísticas. La cámara consume zoom/offset del mismo contenido.
+
+StorySession conserva intro_card y play_actions; las tarjetas ahora aceptan image, zoom_from, zoom_to, pan, transition, audio y title, además de text/seconds. Se usan TextureRect individuales, tweens de pan/zoom/fundido, velo de subtítulos y título tipográfico. Finalizar una acción avanza en el mismo array, compatible con acciones narrativas existentes. El salto/generaciones y devolución de control conservan el contrato anterior. No hay vídeo ni segundo controlador cinematográfico.
+
+La población visible se configura con ocho NPC; reserve_actors almacena cuatro configuraciones no activas y mantiene sus diálogos. Los sistemas no contienen reglas por esos nombres. DirectionalVisual escala la fase por velocidad real y añade una sombra de apoyo; no se reemplazó el controlador ni se duplicaron animaciones.
+
+La referencia de arte se conserva en assets/references como documento; ninguna ruta de runtime la usa. Las ilustraciones completas solo aparecen en intro; los props jugables son atlas originales y recursos anteriores. Ver ART_DIRECTION.md, EXPLORATION.md y la revisión visual de esta iteración.
