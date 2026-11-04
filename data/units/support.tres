@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "support"
+display_name = "Lira"
+team = "ally"
+max_hp = 40
+attack = 6
+defense = 2
+movement = 4
+abilities = Array[String](["jam", "heal"])
+behavior = "player"
+art_key = "support"
+tactical_color = Color(0.6745098039215687, 0.6705882352941176, 0.8352941176470589, 1)

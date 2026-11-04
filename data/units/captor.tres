@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "captor"
+display_name = "Capturador"
+team = "enemy"
+max_hp = 30
+attack = 7
+defense = 2
+movement = 3
+abilities = Array[String]([])
+behavior = "capture"
+art_key = "captor"
+tactical_color = Color(0.8235294117647058, 0.5450980392156862, 0.37254901960784315, 1)

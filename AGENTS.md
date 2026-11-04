@@ -1,0 +1,70 @@
+# UMBRAL — Reglas permanentes del proyecto
+
+## Identidad
+
+UMBRAL es un RPG táctico por turnos con narrativa de ciencia ficción distópica. Utiliza Godot 4.x, GDScript y Windows como plataforma principal. Su estética es pixel art oscuro, decadente y atmosférico, con perspectiva cenital clásica. Mantener compatibilidad con la versión utilizada por el proyecto, actualmente Godot 4.2.2; no adoptar API posteriores sin una migración solicitada y verificada.
+
+## Principios arquitectónicos obligatorios
+
+1. Todas las mecánicas de combate deben ser reutilizables entre mapas y misiones.
+2. No introducir reglas de un escenario en sistemas generales.
+3. Separar datos, lógica de negocio y presentación visual.
+4. Mantener independientes movimiento, turnos, habilidades, combate, IA y objetivos.
+5. Evitar dependencias circulares y clases monolíticas.
+6. Usar escenas y recursos reutilizables de Godot.
+7. Usar GDScript tipado cuando corresponda.
+8. Priorizar señales y eventos para comunicar sistemas desacoplados.
+9. No duplicar lógica existente.
+10. Mantener compatibilidad con la versión de Godot del proyecto.
+
+## Mapas
+
+- Admitir dimensiones diferentes. Cada mapa define transitabilidad y obstáculos.
+- Ubicar las unidades mediante datos de configuración.
+- Calcular movimiento y rangos dinámicamente con la información del mapa activo y el sistema de rutas existente.
+- No copiar implementaciones de combate dentro de mapas.
+- La decoración no altera las reglas tácticas salvo configuración explícita.
+- Definir el tamaño de casilla en un lugar centralizado por mapa y consumirlo desde allí; no mantener constantes inconsistentes en vistas, animaciones o colisiones.
+
+## Personajes
+
+- Definir estadísticas mediante datos reutilizables.
+- Las habilidades no deben depender de nombres concretos de personajes.
+- Aliados y enemigos comparten los sistemas generales de combate.
+- Incorporar personajes nuevos mediante configuración y recursos.
+- Separar animaciones, sprites y retratos de la lógica de combate.
+
+## Misiones
+
+- Las condiciones de victoria y derrota deben ser configurables; no asumir que todas las misiones exigen eliminar enemigos.
+- Mantener puntos de extensión para defensa, rescate, sabotaje, supervivencia y escape, sin implementar modalidades no solicitadas.
+- Evaluar objetivos mediante sistemas independientes del mapa visual.
+- Los eventos narrativos deben poder reaccionar a resultados y eventos del combate sin modificar su lógica interna.
+
+## Preservación
+
+Antes de modificar una mecánica: inspeccionar su implementación, identificar dependencias, revisar las pruebas, implementar los cambios mínimos necesarios, comprobar las funcionalidades anteriores y documentar las decisiones arquitectónicas relevantes.
+
+No modificar estadísticas, habilidades, reglas ni contenido narrativo salvo petición expresa de la tarea. No sustituir arte existente sin autorización. Proteger los cambios existentes antes de editar; no sobrescribir trabajo ajeno ni restaurar indiscriminadamente archivos.
+
+## Calidad
+
+- No dejar código de depuración visible en la interfaz final.
+- No usar rutas absolutas del equipo del desarrollador en código, recursos ni instrucciones de ejecución del proyecto.
+- No introducir dependencias externas innecesarias.
+- No silenciar errores: resolver su causa o documentar con precisión una limitación comprobada.
+- No afirmar pruebas que no se ejecutaron. Diferenciar carga headless, simulación, renderizado y prueba manual.
+- No eliminar archivos ni funcionalidades sin comprobar dependencias.
+- No realizar refactorizaciones masivas sin justificación en la tarea.
+
+## Flujo obligatorio para futuras tareas
+
+1. Leer este AGENTS.md.
+2. Consultar docs/ARCHITECTURE.md si el cambio afecta sistemas técnicos.
+3. Inspeccionar el código relevante y sus pruebas.
+4. Implementar cambios incrementales.
+5. Ejecutar las pruebas disponibles pertinentes y corregir regresiones.
+6. Actualizar la documentación si cambia la arquitectura; para mapas consultar docs/CREATING_MAPS.md.
+7. Informar los archivos modificados, las pruebas realmente ejecutadas y las limitaciones pendientes.
+
+Estas son normas generales y permanentes, no instrucciones limitadas a una iteración concreta.

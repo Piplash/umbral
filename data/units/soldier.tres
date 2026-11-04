@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "soldier"
+display_name = "Soldado"
+team = "enemy"
+max_hp = 40
+attack = 10
+defense = 3
+movement = 3
+abilities = Array[String]([])
+behavior = "aggressive"
+art_key = "soldier"
+tactical_color = Color(0.803921568627451, 0.33725490196078434, 0.3254901960784314, 1)

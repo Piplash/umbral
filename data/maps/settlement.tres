@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleMapData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://scripts/data/battle_map_data.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/maps/settlement_visual.tscn" id="2"]
+[resource]
+script = ExtResource("1")
+map_id = "settlement"
+dimensions = Vector2i(8, 8)
+cell_size = 46
+board_origin = Vector2(226, 128)
+blocked_cells = Array[Vector2i]([Vector2i(2, 2), Vector2i(2, 3), Vector2i(5, 4), Vector2i(5, 5), Vector2i(4, 1), Vector2i(1, 6)])
+default_terrain = 0
+terrain = {}
+spawn_points = {"entrada": Vector2i(0, 0)}
+visual_scene = ExtResource("2")

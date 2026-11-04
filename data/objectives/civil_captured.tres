@@ -1,0 +1,5 @@
+[gd_resource type="Resource" script_class="CaptureCompleteCondition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/capture_complete_condition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+message = "El civil fue capturado."

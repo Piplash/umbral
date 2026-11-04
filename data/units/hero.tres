@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "hero"
+display_name = "Gael"
+team = "ally"
+max_hp = 60
+attack = 12
+defense = 4
+movement = 4
+abilities = Array[String](["heavy"])
+behavior = "player"
+art_key = "hero"
+tactical_color = Color(0.4392156862745098, 0.7764705882352941, 0.8392156862745098, 1)

@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="BattleMissionData" load_steps=18 format=3]
+[ext_resource type="Script" path="res://scripts/data/battle_mission_data.gd" id="mission"]
+[ext_resource type="Script" path="res://scripts/data/unit_spawn_data.gd" id="spawn"]
+[ext_resource type="Script" path="res://scripts/data/battle_condition.gd" id="condition"]
+[ext_resource type="Resource" path="res://data/maps/settlement.tres" id="map"]
+[ext_resource type="Resource" path="res://data/units/hero.tres" id="hero"]
+[ext_resource type="Resource" path="res://data/units/support.tres" id="support"]
+[ext_resource type="Resource" path="res://data/units/soldier.tres" id="soldier"]
+[ext_resource type="Resource" path="res://data/units/captor.tres" id="captor"]
+[ext_resource type="Resource" path="res://data/units/civil.tres" id="civil"]
+[ext_resource type="Resource" path="res://data/objectives/eliminate_enemies.tres" id="win"]
+[ext_resource type="Resource" path="res://data/objectives/all_allies_defeated.tres" id="lose_allies"]
+[ext_resource type="Resource" path="res://data/objectives/civil_captured.tres" id="lose_capture"]
+[sub_resource type="Resource" id="Spawn_hero"]
+script = ExtResource("spawn")
+instance_id = "hero"
+definition = ExtResource("hero")
+position = Vector2i(1, 4)
+[sub_resource type="Resource" id="Spawn_support"]
+script = ExtResource("spawn")
+instance_id = "support"
+definition = ExtResource("support")
+position = Vector2i(2, 5)
+[sub_resource type="Resource" id="Spawn_soldier"]
+script = ExtResource("spawn")
+instance_id = "soldier"
+definition = ExtResource("soldier")
+position = Vector2i(6, 2)
+[sub_resource type="Resource" id="Spawn_captor"]
+script = ExtResource("spawn")
+instance_id = "captor"
+definition = ExtResource("captor")
+position = Vector2i(6, 6)
+[sub_resource type="Resource" id="Spawn_civil"]
+script = ExtResource("spawn")
+instance_id = "civil"
+definition = ExtResource("civil")
+position = Vector2i(3, 3)
+[resource]
+script = ExtResource("mission")
+mission_id = "settlement"
+display_name = "Defensa del asentamiento"
+victory_title = "ASENTAMIENTO A SALVO"
+map = ExtResource("map")
+participants = Array[ExtResource("spawn")]([SubResource("Spawn_hero"), SubResource("Spawn_support"), SubResource("Spawn_soldier"), SubResource("Spawn_captor"), SubResource("Spawn_civil")])
+objective_text = "Impide la captura del civil.\nDerrota a todos los enemigos."
+protected_unit_id = "civil"
+capture_limit = 3
+victory_conditions = Array[ExtResource("condition")]([ExtResource("win")])
+defeat_conditions = Array[ExtResource("condition")]([ExtResource("lose_allies"), ExtResource("lose_capture")])

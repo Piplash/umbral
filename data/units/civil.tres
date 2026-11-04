@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="UnitDefinition" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_definition.gd" id="1"]
+[resource]
+script = ExtResource("1")
+definition_id = "civil"
+display_name = "Civil"
+team = "neutral"
+max_hp = 25
+attack = 0
+defense = 0
+movement = 0
+abilities = Array[String]([])
+behavior = "passive"
+art_key = "civil"
+tactical_color = Color(0.8470588235294118, 0.7686274509803922, 0.49411764705882355, 1)
